@@ -1,6 +1,6 @@
-
 from pathlib import Path
 from urllib.request import urlretrieve
+import os
 
 here = Path(__file__).absolute().parent
 
@@ -8,11 +8,26 @@ data = here / "data"
 
 data.mkdir(exist_ok=True)
 
-address = "https://www.data.gouv.fr/fr/datasets/r/406c6a23-e283-4300-9484-54e78c8ae675"
+address = (
+    "https://www.data.gouv.fr/fr/datasets/r/406c6a23-e283-4300-9484-54e78c8ae675"
+)
 
 
 def download():
-    return urlretrieve(address, data / "tmp.csv")
+    path, log = urlretrieve(address, data / "tmp.csv")
+
+    day, month = log.as_string().split("\n")[4].split(", ")[1].split(" ")[:2]
+
+    if month == "Sep":
+        month = "09"
+    else:
+        raise NotImplementedError
+
+    path_new = path.with_name(f"sp-pos-quot-dep-2020-{month}-{day}-19h15.csv")
+    os.rename(path, path_new)
+
+    return path, log
 
 
-path, log = download()
+if __name__ == "__main__":
+    path, log = download()
