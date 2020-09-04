@@ -1,0 +1,10 @@
+name: env-plot-covid19
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - voila
+  - python=3.8
+  - ipympl
+  - pandas
+  - matplotlib
