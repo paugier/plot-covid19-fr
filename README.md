@@ -1,3 +1,6 @@
+# Plot covid-19 France
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19/master?filepath=plot_covid19.ipynb)
 
 https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-resultats-des-tests-virologiques-covid-19/
 
