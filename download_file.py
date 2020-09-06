@@ -1,6 +1,7 @@
 from pathlib import Path
 from urllib.request import urlretrieve
 import os
+from shutil import copyfile
 
 here = Path(__file__).absolute().parent
 
@@ -25,6 +26,9 @@ def download():
 
     path_new = path.with_name(f"sp-pos-quot-dep-2020-{month}-{day}-19h15.csv")
     os.rename(path, path_new)
+
+    print(f"copy {path_new.name} in data/sp-pos-quot-dep.csv")
+    copyfile(path_new, data / "sp-pos-quot-dep.csv")
 
     return path, log
 

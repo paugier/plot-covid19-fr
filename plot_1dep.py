@@ -48,8 +48,6 @@ def plot_month(idep):
 
     fig.tight_layout()
 
-    plt.show()
-
 
 if __name__ == "__main__":
     plot_month(13)
@@ -57,3 +55,6 @@ if __name__ == "__main__":
     plot_month(38)
     plot_month(44)
     plot_month(75)
+    plot_month(17)
+
+    plt.show()
