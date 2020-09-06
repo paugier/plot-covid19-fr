@@ -6,10 +6,7 @@ from departements import DEPARTMENTS
 from population import population
 
 here = Path(__file__).absolute().parent
-
-paths = sorted((here / "data").glob("sp-pos-quot-dep-*.csv"))
-path = paths[-1]
-print(path)
+path = here / "data" / "sp-pos-quot-dep.csv"
 
 
 def load_dataframe():
