@@ -1,13 +1,13 @@
 name: env-plot-covid19
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - voila
   - python=3.8
+  - matplotlib-base>=2.2.2
   - ipympl
+  - widgetsnbextension
   - pandas
-  - matplotlib
   - transonic
   - pythran
-  - gast =0.3.3
+  - gast=0.3.3
