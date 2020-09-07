@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 
 from util import complete_df_1dep_1age
 
-from load_data import load_dataframe, DEPARTMENTS
+from load_data import load_dataframe_dep, DEPARTMENTS
 
-df_full = load_dataframe()
+df_full = load_dataframe_dep()
 
 
-def plot_faster_dyn():
+def plot_faster_dyn(verbose=False):
 
     df = df_full[df_full.cl_age90 == 0]
 
@@ -37,10 +37,11 @@ def plot_faster_dyn():
         last_ratio = last["ratio_c"].values[0]
         last_incidence = last["incidence"].values[0]
 
-        print(
-            f"{dep:2}, {DEPARTMENTS[dep]:23} : {nb_tests = :5d}, "
-            f"{last_ratio = :6.2f}\n{last_incidence = :6.2f}"
-        )
+        if verbose:
+            print(
+                f"{dep:2}, {DEPARTMENTS[dep]:23} : {nb_tests = :5d}, "
+                f"{last_ratio = :6.2f}\n{last_incidence = :6.2f}"
+            )
 
         style = None
         if idep == 38:
@@ -53,7 +54,6 @@ def plot_faster_dyn():
 
             tmp.plot(y="incidence", ax=ax1, label=DEPARTMENTS[dep], style=style)
 
-
     ax.set_title("Taux de positivité sur 7 jours")
     ax1.set_title("Incidence (cas positifs sur 7 jours par 100000 hab.)")
 
@@ -61,8 +61,7 @@ def plot_faster_dyn():
     fig1.tight_layout()
 
 
-
 if __name__ == "__main__":
 
-    plot_faster_dyn()
+    plot_faster_dyn(verbose=True)
     plt.show()
