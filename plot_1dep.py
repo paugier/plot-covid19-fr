@@ -11,7 +11,7 @@ from load_data import load_dataframe_dep, DEPARTMENTS
 df = load_dataframe_dep()
 
 
-def plot_1loc(df_loc, for_title=None, yscale_log=True):
+def plot_1loc(df_loc, for_title=None, yscale="lin"):
 
     fig, ax = plt.subplots()
 
@@ -53,18 +53,17 @@ def plot_1loc(df_loc, for_title=None, yscale_log=True):
 
     ax.set_title(title)
 
-    if yscale_log:
-        ax.set_yscale("log")
+    ax.set_yscale(yscale)
 
     fig.tight_layout()
 
     return ax
 
 
-def plot_1dep(idep):
+def plot_1dep(idep, yscale="lin"):
     dep = f"{idep:02d}"
     df_dep = df[df.dep == dep].copy()
-    return plot_1loc(df_dep, for_title=f"{DEPARTMENTS[dep]} ({dep:2})")
+    return plot_1loc(df_dep, for_title=f"{DEPARTMENTS[dep]} ({dep:2})", yscale=yscale)
 
 
 if __name__ == "__main__":
