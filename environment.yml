@@ -8,3 +8,5 @@ dependencies:
   - ipympl
   - pandas
   - matplotlib
+  - transonic
+  - pythran
