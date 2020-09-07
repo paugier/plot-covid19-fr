@@ -11,3 +11,4 @@ dependencies:
   - transonic
   - pythran
   - gast=0.3.3
+  - nodejs=14.9.0

@@ -8,4 +8,4 @@ https://www.data.gouv.fr/fr/datasets/r/406c6a23-e283-4300-9484-54e78c8ae675 (sp-
 
 https://mybinder.org/v2/gh/paugier/plot-covid19/master?urlpath=lab/tree/plot_covid19.ipynb
 
-https://mybinder.org/v2/gh/paugier/plot-covid19/master?urlpath=voila/tree/plot_covid19.ipynb
+https://mybinder.org/v2/gh/paugier/plot-covid19/master?urlpath=voila/render/plot_covid19.ipynb
