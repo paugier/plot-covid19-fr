@@ -26,23 +26,24 @@ def plot_1loc(df_loc, for_title=None, yscale="lin"):
         return tmp[tmp.index > "2020-07-30"]
 
     tmp = make_df_1age(0)
-    tmp.plot(y="ratio_c", ax=ax, label=f"total", color="k", linewidth=2)
+    tmp.plot(y="ratio_c", ax=ax, label=f"total", color="k", linewidth=3)
 
-    for age in 9 + 10 * np.arange(8):
+    for age in 9 + 10 * np.arange(7):
         tmp = make_df_1age(age)
         tmp.plot(y="ratio_c", ax=ax, label=f"{age-9}-{age}")
 
+    tmp79 = make_df_1age(79)
     tmp89 = make_df_1age(89)
     tmp90 = make_df_1age(90)
 
     tmp = pd.DataFrame(
-        {"Tc": tmp89["Tc"] + tmp90["Tc"], "Pc": tmp89["Pc"] + tmp90["Pc"]},
-        index=tmp89.index,
+        {"Tc": tmp79["Tc"] + tmp89["Tc"] + tmp90["Tc"], "Pc": tmp79["Pc"] + tmp89["Pc"] + tmp90["Pc"]},
+        index=tmp79.index,
     )
 
     tmp["ratio_c"] = 100 * tmp["Pc"] / tmp["Tc"]
 
-    tmp.plot(y="ratio_c", ax=ax, label=f">80")
+    tmp.plot(y="ratio_c", ax=ax, label=f">=70")
 
     ax.grid(True, axis="y")
 
