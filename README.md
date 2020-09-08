@@ -5,7 +5,7 @@ Attention : utiliser Chrome ou Chromium. Malheureusement, il y a un bug avec Fir
 - Visualiser avec Voilà (sans code) :
 [![Binder Voila](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19/master?urlpath=%2Fvoila%2Frender%2Fplot_covid19.ipynb)
 
-- Visualiser avec JupyterLab (code modifiable) :
+- Visualiser avec Jupyter Notebook (code modifiable) :
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19/master?filepath=plot_covid19.ipynb)
 
 ## Données Système d’Informations de DEPistage (SI-DEP)
