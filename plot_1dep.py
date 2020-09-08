@@ -11,9 +11,12 @@ from load_data import load_dataframe_dep, DEPARTMENTS
 df = load_dataframe_dep()
 
 
-def plot_1loc(df_loc, for_title=None, yscale="lin"):
+def plot_1loc(df_loc, for_title=None, yscale="lin", ax=None):
 
-    fig, ax = plt.subplots()
+    if ax is None:
+        fig, ax = plt.subplots()
+    else:
+        fig = ax.figure
 
     def make_df_1age(age):
         tmp = df_loc[df_loc.cl_age90 == age].copy()
@@ -37,7 +40,10 @@ def plot_1loc(df_loc, for_title=None, yscale="lin"):
     tmp90 = make_df_1age(90)
 
     tmp = pd.DataFrame(
-        {"Tc": tmp79["Tc"] + tmp89["Tc"] + tmp90["Tc"], "Pc": tmp79["Pc"] + tmp89["Pc"] + tmp90["Pc"]},
+        {
+            "Tc": tmp79["Tc"] + tmp89["Tc"] + tmp90["Tc"],
+            "Pc": tmp79["Pc"] + tmp89["Pc"] + tmp90["Pc"],
+        },
         index=tmp79.index,
     )
 
@@ -61,10 +67,13 @@ def plot_1loc(df_loc, for_title=None, yscale="lin"):
     return ax
 
 
-def plot_1dep(idep, yscale="lin"):
-    dep = f"{idep:02d}"
+def plot_1dep(dep, yscale="lin", ax=None):
+    if isinstance(dep, int):
+        dep = f"{dep:02d}"
     df_dep = df[df.dep == dep].copy()
-    return plot_1loc(df_dep, for_title=f"{DEPARTMENTS[dep]} ({dep:2})", yscale=yscale)
+    return plot_1loc(
+        df_dep, for_title=f"{DEPARTMENTS[dep]} ({dep:2})", yscale=yscale, ax=ax
+    )
 
 
 if __name__ == "__main__":
