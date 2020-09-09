@@ -1,14 +1,24 @@
 # Plot covid-19 France
 
-Attention : utiliser Chrome ou Chromium. Malheureusement, il y a un bug avec Firefox!
+Ce dépot contient du code permettant de visualiser les données en rapport avec
+l'épidémie de COVID-19 en France. On se concentre pour l'instant sur la reprise
+de l'épidémie quelques mois après la sortie du confinement (à partir d'août
+2020, donc).
 
-- Visualiser avec Voilà (sans code) :
+## Comment visualiser les figures?
+
+Attention : Malheureusement, il y a un bug avec Firefox! On peut utiliser à la
+place Chromium ou Chrome.
+
+- Pour visualiser avec Voilà (sans code), cliquez sur ce bouton :
 [![Binder Voila](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19/master?urlpath=%2Fvoila%2Frender%2Fplot_covid19.ipynb)
 
-- Visualiser avec Jupyter Notebook (code modifiable) :
+- Pour visualiser et modifier le code avec Jupyter Notebook :
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19/master?filepath=plot_covid19.ipynb)
 
-## Données Système d’Informations de DEPistage (SI-DEP)
+## A propos des données utilisées
+
+### Données Système d’Informations de DEPistage (SI-DEP)
 
 https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-resultats-des-tests-virologiques-covid-19/
 
