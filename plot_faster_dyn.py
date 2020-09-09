@@ -9,7 +9,7 @@ from load_data import load_dataframe_dep, DEPARTMENTS
 df_full = load_dataframe_dep()
 
 
-def plot_faster_dyn(verbose=False):
+def plot_faster_dyn(verbose=False, axes=None):
 
     df = df_full[df_full.cl_age90 == 0]
 
@@ -18,8 +18,13 @@ def plot_faster_dyn(verbose=False):
 
     df["ratio"] = 100 * df.P / df["T"]
 
-    fig, ax = plt.subplots()
-    fig1, ax1 = plt.subplots()
+    if axes is None:
+        fig, ax = plt.subplots()
+        fig1, ax1 = plt.subplots()
+    else:
+        ax, ax1 = axes
+        fig = ax.figure
+        fig1 = ax1.figure
 
     for idep in range(1, 96):
         if idep == 20:
