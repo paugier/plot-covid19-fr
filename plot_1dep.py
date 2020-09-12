@@ -29,15 +29,16 @@ def plot_1loc(
     if with_incidence:
         if axes_incidence is None:
             fig_incidence, axes_incidence = plt.subplots(2, 1, sharex=True)
-
-        ax_incidence = axes_incidence[0]
-        ax_number_tests = axes_incidence[1]
+            ax_incidence, ax_number_tests = axes_incidence
+        else:
+            ax_incidence, ax_number_tests = axes_incidence
+            fig_incidence = ax_incidence.figure
 
         ax_incidence.set_title(
-            "Taux d'incidence (avec décomposition classes d'âges)"
+            "Taux d'incidence"
         )
         ax_number_tests.set_title(
-            "Nombre de tests (avec décomposition classes d'âges)"
+            "Nombre de tests 7 derniers jours / 7"
         )
 
     def make_df_1age(age):
