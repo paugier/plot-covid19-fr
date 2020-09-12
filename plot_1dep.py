@@ -99,12 +99,18 @@ def plot_1loc(
     tmp["ratio_c"] = 100 * tmp["Pc"] / tmp["Tc"]
     tmp.plot(y="ratio_c", ax=ax, label=f">=70")
 
+    date_bad_data = tmp.index[-3]
+    ax.axvline(date_bad_data, color="k", linestyle=":")
+
     if with_incidence:
         incidence_tmp += tmp["incidence"]
         ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
 
         number_tests_tmp += tmp["Tc"] / 7
         ax_number_tests.fill_between(tmp.index, number_tests_tmp, number_tests_bottom)
+
+        for _ in [ax_incidence, ax_number_tests]:
+            _.axvline(date_bad_data, color="k", linestyle=":")
 
     ax.grid(True, axis="y")
 

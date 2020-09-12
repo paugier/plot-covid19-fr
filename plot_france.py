@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import matplotlib.pyplot as plt
 
 from load_data import load_dataframe_france
@@ -5,6 +7,10 @@ from load_data import load_dataframe_france
 from plot_1dep import plot_1loc
 
 df = load_dataframe_france()
+date_max = df.index.max()
+date_max_obj = datetime.strptime(date_max, "%Y-%m-%d")
+date_file = date_max_obj + timedelta(3)
+date_file = date_file.strftime("%d/%m/%Y")
 
 
 def plot_france(yscale="log", ax=None, with_incidence=False, axes_incidence=None):
