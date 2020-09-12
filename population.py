@@ -1,20 +1,19 @@
 
 population = {}
 
+total = 0
+
 with open("population.txt") as file:
     for line in file:
         words = line.split()
         dep, pop = words[0], words[-1]
 
-        try:
+        if len(dep) == 1:
             idep = int(dep)
-        except ValueError:
-            # Corse
-            continue
+            dep = f"{idep:02d}"
 
-        if idep > 100:
-            continue
+        pop = int(pop)
+        population[dep] = pop
+        total += pop
 
-        dep = f"{idep:02d}"
-
-        population[dep] = int(pop)
+population["France"] = total

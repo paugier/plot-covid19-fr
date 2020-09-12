@@ -2,7 +2,7 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
-from util import complete_df_1dep_1age
+from util import complete_df_1loc_1age
 
 from load_data import load_dataframe_dep, DEPARTMENTS
 
@@ -33,7 +33,7 @@ def plot_faster_dyn(verbose=False, axes=None):
         dep = f"{idep:02d}"
         tmp = df[df.dep == dep].copy()
         tmp = tmp[tmp.index > "2020-07-23"]
-        complete_df_1dep_1age(tmp, dep)
+        complete_df_1loc_1age(tmp, dep)
         tmp = tmp[tmp.index > "2020-07-30"]
 
         last = tmp[tmp.index == tmp.index.max()]

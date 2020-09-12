@@ -4,6 +4,7 @@ from transonic import jit
 
 from load_data import population
 
+
 @jit
 def cumul7(data: "int[]"):
     n = 7
@@ -19,7 +20,7 @@ def cumul7(data: "int[]"):
     return ret
 
 
-def complete_df_1dep_1age(tmp, dep=None):
+def complete_df_1loc_1age(tmp, dep=None):
 
     tmp["Tc"] = cumul7(tmp["T"].values)
     tmp["Pc"] = cumul7(tmp["P"].values)

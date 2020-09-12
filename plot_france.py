@@ -7,11 +7,18 @@ from plot_1dep import plot_1loc
 df = load_dataframe_france()
 
 
-def plot_france(yscale="log"):
-    return plot_1loc(df, "France", yscale=yscale)
+def plot_france(yscale="log", with_incidence=False, axes_incidence=None):
+    return plot_1loc(
+        df,
+        "France",
+        yscale=yscale,
+        location="France",
+        with_incidence=with_incidence,
+        axes_incidence=axes_incidence,
+    )
 
 
 if __name__ == "__main__":
 
-    plot_france()
+    plot_france(with_incidence=True)
     plt.show()
