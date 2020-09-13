@@ -1,3 +1,5 @@
+import random
+
 import pandas as pd
 
 import matplotlib.pyplot as plt
@@ -26,6 +28,7 @@ def plot_faster_dyn(verbose=False, axes=None):
         fig = ax.figure
         fig1 = ax1.figure
 
+    styles = ["-", "--", ":", "-."]
     for idep in range(1, 96):
         if idep == 20:
             continue
@@ -48,19 +51,15 @@ def plot_faster_dyn(verbose=False, axes=None):
                 f"{last_ratio = :6.2f}\n{last_incidence = :6.2f}"
             )
 
-        style = None
-        if idep == 38:
-            style = "--"
+        style = random.choice(styles)
 
-        if (nb_tests > 1000 and last_ratio > 6) or idep == 38:
+        if nb_tests > 1000 and last_ratio > 6:
             tmp.plot(y="ratio_c", ax=ax, label=DEPARTMENTS[dep], style=style)
-
-            # if (nb_tests > 1000 and last_incidence > 70) or idep == 38:
-
             tmp.plot(y="incidence", ax=ax1, label=DEPARTMENTS[dep], style=style)
 
     ax.set_title("Taux de positivité sur 7 jours")
     ax1.set_title("Incidence (cas positifs sur 7 jours par 100000 hab.)")
+    ax.legend(loc='upper left')
 
     ax1.axhline(50, color="k")
 
