@@ -1,7 +1,5 @@
 import numpy as np
-
 import pandas as pd
-
 import matplotlib.pyplot as plt
 
 from util import complete_df_1loc_1age
