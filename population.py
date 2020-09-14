@@ -1,4 +1,3 @@
-
 population = {}
 
 total = 0

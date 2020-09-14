@@ -34,12 +34,8 @@ def plot_1loc(
             ax_incidence, ax_number_tests = axes_incidence
             fig_incidence = ax_incidence.figure
 
-        ax_incidence.set_title(
-            "Taux d'incidence"
-        )
-        ax_number_tests.set_title(
-            "Nombre de tests 7 derniers jours / 7"
-        )
+        ax_incidence.set_title("Taux d'incidence")
+        ax_number_tests.set_title("Nombre de tests 7 derniers jours / 7")
 
     def make_df_1age(age):
         tmp = df_loc[df_loc.cl_age90 == age].copy()
@@ -107,7 +103,9 @@ def plot_1loc(
         ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
 
         number_tests_tmp += tmp["Tc"] / 7
-        ax_number_tests.fill_between(tmp.index, number_tests_tmp, number_tests_bottom)
+        ax_number_tests.fill_between(
+            tmp.index, number_tests_tmp, number_tests_bottom
+        )
 
         for _ in [ax_incidence, ax_number_tests]:
             _.axvline(date_bad_data, color="k", linestyle=":")

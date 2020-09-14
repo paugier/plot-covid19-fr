@@ -59,7 +59,7 @@ def plot_faster_dyn(verbose=False, axes=None):
 
     ax.set_title("Taux de positivité sur 7 jours")
     ax1.set_title("Incidence (cas positifs sur 7 jours par 100000 hab.)")
-    ax.legend(loc='upper left')
+    ax.legend(loc="upper left")
 
     ax1.axhline(50, color="k")
 
