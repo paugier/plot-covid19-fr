@@ -26,6 +26,5 @@ def plot_france(yscale="log", ax=None, with_incidence=False, axes_incidence=None
 
 
 if __name__ == "__main__":
-
     plot_france(with_incidence=True)
     plt.show()

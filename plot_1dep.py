@@ -21,8 +21,10 @@ def plot_1loc(
 
     if ax is None:
         fig, ax = plt.subplots()
+        tight_layout = True
     else:
         fig = ax.figure
+        tight_layout = False
 
     if with_incidence:
         if axes_incidence is None:
@@ -120,9 +122,10 @@ def plot_1loc(
     ax.set_title(title)
     ax.set_yscale(yscale)
 
-    fig.tight_layout()
+    if tight_layout:
+        fig.tight_layout()
 
-    if with_incidence:
+    if with_incidence and tight_layout:
         fig_incidence.tight_layout()
 
     return ax

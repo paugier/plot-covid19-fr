@@ -11,12 +11,22 @@ data = here / "data"
 
 
 def load_dataframe_dep():
-    return pd.read_csv(data / "sp-pos-quot-dep.csv", sep=";", index_col=1)
+    return pd.read_csv(
+        data / "sp-pos-quot-dep.csv",
+        sep=";",
+        index_col=1,
+        dtype={"jour": str, "dep": str},
+    )
 
 
 def load_dataframe_france(no_sex=True):
 
-    df = pd.read_csv(data / "sp-pos-quot-france.csv", sep=";", index_col=1)
+    df = pd.read_csv(
+        data / "sp-pos-quot-france.csv",
+        sep=";",
+        index_col=1,
+        dtype={"jour": str, "dep": str},
+    )
 
     return df[["P", "T", "cl_age90"]].copy()
 
@@ -26,6 +36,7 @@ def load_hospi():
         data / "donnees-hospitalieres-nouveaux-covid19-hospi.csv",
         sep=";",
         index_col=1,
+        dtype={"jour": str, "dep": str},
     )
     df = df.rename(
         {key: key[6:] for key in df.keys() if key.startswith("incid_")},

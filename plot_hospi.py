@@ -7,36 +7,58 @@ from util import cumul7
 
 df = load_hospi()
 
-dep = "75"
 
-df.index = pd.to_datetime(df.index)
+def plot_hospi(loc, set_title=False, axes=None):
 
-tmp = df[df.dep == dep].copy()
-tmp = tmp.drop(columns=["dep"])
+    df.index = pd.to_datetime(df.index)
 
-assert "dep" not in tmp.keys()
+    if loc == "France":
+        tmp = df.groupby(["jour"]).sum()
+    else:
+        tmp = df[df.dep == loc].copy()
+        tmp = tmp.drop(columns=["dep"])
 
-tmp = tmp[tmp.index > "2020-07-23"]
+    tmp = tmp[tmp.index > "2020-07-23"]
 
-for key in tmp.keys():
-    tmp[key + "_c"] = cumul7(tmp[key].values) / 7
-tmp = tmp[tmp.index > "2020-07-30"]
+    for key in tmp.keys():
+        tmp[key + "_c"] = cumul7(tmp[key].values) / 7
+    tmp = tmp[tmp.index > "2020-07-30"]
 
-fig, (ax0, ax1) = plt.subplots(2, 1, sharex=True)
+    if axes is None:
+        fig, (ax0, ax1) = plt.subplots(2, 1, sharex=True)
+        tight_layout = True
+    else:
+        (ax0, ax1) = axes
+        fig = ax0.figure
+        tight_layout = False
 
-tmp["solde"] = tmp.hosp_c - tmp.rad_c - tmp.dc_c
-tmp.rad_c = -tmp.rad_c
+    tmp["solde"] = tmp.hosp_c - tmp.rad_c - tmp.dc_c
+    # tmp.rad_c = -tmp.rad_c
 
-tmp.plot(y="hosp_c", ax=ax0, label="hospitalisations")
-tmp.plot(y="rad_c", ax=ax0, label="retours à domicile")
-tmp.plot(y="solde", ax=ax0)
+    tmp.plot(y="hosp_c", ax=ax0, label="hospitalisations")
+    tmp.plot(y="rad_c", ax=ax0, label="retours à domicile")
+    tmp.plot(y="solde", ax=ax0, color="k", linewidth=2)
 
-ax0.axhline(0, color="k", linestyle=":")
+    ax0.axhline(0, color="k", linestyle=":")
 
-tmp.plot(y="rea_c", ax=ax1, label="réanimation")
-tmp.plot(y="dc_c", ax=ax1, label="décès")
+    tmp.plot(y="rea_c", ax=ax1, label="réanimation", color="r")
+    tmp.plot(y="dc_c", ax=ax1, label="décès", color="k")
 
-ax0.set_title(f"{DEPARTMENTS[dep]} ({dep:2}), (moyenne 7j)")
+    if set_title:
+        if loc == "France":
+            title = "France"
+        else:
+            title = f"{DEPARTMENTS[loc]} ({dep:2})"
 
-fig.tight_layout()
-plt.show()
+        ax0.set_title(title + ", (moyenne 7j)")
+
+    if tight_layout:
+        fig.tight_layout()
+
+    return ax0, ax1
+
+
+if __name__ == "__main__":
+
+    plot_hospi("75")
+    plt.show()
