@@ -63,6 +63,10 @@ def plot_faster_dyn(verbose=False, axes=None):
 
     ax1.axhline(50, color="k")
 
+    date_bad_data = tmp.index[-3]
+    for _ in [ax, ax1]:
+        _.axvline(date_bad_data, color="k", linestyle=":")
+
     fig.tight_layout()
     fig1.tight_layout()
 

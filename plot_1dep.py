@@ -111,6 +111,7 @@ def plot_1loc(
 
         for _ in [ax_incidence, ax_number_tests]:
             _.axvline(date_bad_data, color="k", linestyle=":")
+            _.grid(True, axis="y")
 
     ax.grid(True, axis="y")
 

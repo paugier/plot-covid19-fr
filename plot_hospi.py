@@ -8,7 +8,7 @@ from util import cumul7
 df = load_hospi()
 
 
-def plot_hospi(loc, set_title=False, axes=None):
+def plot_hospi(loc, axes=None, title=None):
 
     df.index = pd.to_datetime(df.index)
 
@@ -33,7 +33,6 @@ def plot_hospi(loc, set_title=False, axes=None):
         tight_layout = False
 
     tmp["solde"] = tmp.hosp_c - tmp.rad_c - tmp.dc_c
-    # tmp.rad_c = -tmp.rad_c
 
     tmp.plot(y="hosp_c", ax=ax0, label="hospitalisations")
     tmp.plot(y="rad_c", ax=ax0, label="retours à domicile")
@@ -44,13 +43,16 @@ def plot_hospi(loc, set_title=False, axes=None):
     tmp.plot(y="rea_c", ax=ax1, label="réanimation", color="r")
     tmp.plot(y="dc_c", ax=ax1, label="décès", color="k")
 
-    if set_title:
+    if title is None:
         if loc == "France":
             title = "France"
         else:
             title = f"{DEPARTMENTS[loc]} ({dep:2})"
 
-        ax0.set_title(title + ", (moyenne 7j)")
+    ax0.set_title(title + ", (moyenne 7j)")
+
+    for _ in (ax0, ax1):
+        _.grid(True, axis="y")
 
     if tight_layout:
         fig.tight_layout()
