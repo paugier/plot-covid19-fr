@@ -5,4 +5,4 @@ widgetsnbextension
 pandas
 transonic
 pythran
-gast=0.3.3
+gast==0.3.3
