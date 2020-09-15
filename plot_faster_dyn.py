@@ -11,7 +11,9 @@ from load_data import load_dataframe_dep, DEPARTMENTS
 df_full = load_dataframe_dep()
 
 
-def plot_faster_dyn(verbose=False, axes=None):
+def plot_faster_dyn(
+    verbose=False, axes=None, min_positive_rate=6, max_positive_rate=None
+):
 
     df = df_full[df_full.cl_age90 == 0]
 
@@ -29,11 +31,9 @@ def plot_faster_dyn(verbose=False, axes=None):
         fig1 = ax1.figure
 
     styles = ["-", "--", ":", "-."]
-    for idep in range(1, 96):
-        if idep == 20:
+    for dep in DEPARTMENTS.keys():
+        if len(dep) > 2:
             continue
-
-        dep = f"{idep:02d}"
         tmp = df[df.dep == dep].copy()
         tmp = tmp[tmp.index > "2020-07-23"]
         complete_df_1loc_1age(tmp, dep)
@@ -53,19 +53,25 @@ def plot_faster_dyn(verbose=False, axes=None):
 
         style = random.choice(styles)
 
-        if nb_tests > 1000 and last_ratio > 6:
-            tmp.plot(y="ratio_c", ax=ax, label=DEPARTMENTS[dep], style=style)
-            tmp.plot(y="incidence", ax=ax1, label=DEPARTMENTS[dep], style=style)
+        if (
+            nb_tests > 1000
+            and last_ratio > min_positive_rate
+            and (max_positive_rate is None or last_ratio < max_positive_rate)
+        ):
+
+            label = f"{dep:2} - {DEPARTMENTS[dep]}"
+            tmp.plot(y="ratio_c", ax=ax, label=label, style=style)
+            tmp.plot(y="incidence", ax=ax1, label=label, style=style)
 
     ax.set_title("Taux de positivité sur 7 jours")
     ax1.set_title("Incidence (cas positifs sur 7 jours par 100000 hab.)")
-    ax.legend(loc="upper left", prop={'size': 8})
 
     ax1.axhline(50, color="k")
 
     date_bad_data = tmp.index[-3]
     for _ in [ax, ax1]:
         _.axvline(date_bad_data, color="k", linestyle=":")
+        _.legend(loc="upper left", prop={"size": 8})
 
     fig.tight_layout()
     fig1.tight_layout()
@@ -73,5 +79,6 @@ def plot_faster_dyn(verbose=False, axes=None):
 
 if __name__ == "__main__":
 
-    plot_faster_dyn(verbose=True)
+    plot_faster_dyn(verbose=True, min_positive_rate=7)
+    plot_faster_dyn(verbose=True, min_positive_rate=5.5, max_positive_rate=7)
     plt.show()
