@@ -1,0 +1,8 @@
+voila
+matplotlib-base>=2.2.2
+ipympl
+widgetsnbextension
+pandas
+transonic
+pythran
+gast=0.3.3
