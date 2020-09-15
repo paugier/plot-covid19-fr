@@ -36,6 +36,6 @@ https://www.data.gouv.fr/fr/datasets/r/dd0de5d9-b5a5-4503-930a-7b08dc0adc7c
 
 https://www.data.gouv.fr/fr/datasets/donnees-hospitalieres-relatives-a-lepidemie-de-covid-19/
 
-- Variation à hospital :
+- Variations à hospital :
 https://www.data.gouv.fr/fr/datasets/r/6fadff46-9efd-4c53-942a-54aca783c30c
 (`donnees-hospitalieres-nouveaux-covid19-*-19h00.csv`)

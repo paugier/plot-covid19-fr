@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from util import complete_df_1loc_1age
 
-from load_data import load_dataframe_dep, DEPARTMENTS
+from load_data import load_dataframe_dep, DEPARTMENTS, population
 
 df = load_dataframe_dep()
 
@@ -35,7 +35,7 @@ def plot_1loc(
             fig_incidence = ax_incidence.figure
 
         ax_incidence.set_title("Taux d'incidence")
-        ax_number_tests.set_title("Nombre de tests 7 derniers jours / 7")
+        ax_number_tests.set_title("Nombre de tests 7 derniers jours / 100000 hab.")
 
     def make_df_1age(age):
         tmp = df_loc[df_loc.cl_age90 == age].copy()
@@ -52,7 +52,7 @@ def plot_1loc(
 
     if with_incidence:
         tmp.plot(y="incidence", ax=ax_incidence, color="k", legend=False)
-        tmp["Tc1"] = tmp["Tc"] / 7
+        tmp["Tc1"] = 100000 / population[location] * tmp["Tc"]
         tmp.plot(y="Tc1", ax=ax_number_tests, color="k", legend=False)
 
         incidence_tmp = 0.0
@@ -71,7 +71,7 @@ def plot_1loc(
             ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
             incidence_bottom = incidence_tmp.copy()
 
-            number_tests_tmp += tmp["Tc"] / 7
+            number_tests_tmp += 100000 / population[location] * tmp["Tc"]
             ax_number_tests.fill_between(
                 tmp.index, number_tests_tmp, number_tests_bottom
             )
@@ -102,7 +102,7 @@ def plot_1loc(
         incidence_tmp += tmp["incidence"]
         ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
 
-        number_tests_tmp += tmp["Tc"] / 7
+        number_tests_tmp += 100000 / population[location] * tmp["Tc"]
         ax_number_tests.fill_between(
             tmp.index, number_tests_tmp, number_tests_bottom
         )

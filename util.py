@@ -27,4 +27,4 @@ def complete_df_1loc_1age(tmp, dep=None):
     tmp["ratio_c"] = 100 * tmp["Pc"] / tmp["Tc"]
 
     if dep is not None:
-        tmp["incidence"] = 100000 * tmp["Pc"] / population[dep]
+        tmp["incidence"] = 100000 / population[dep] * tmp["Pc"]

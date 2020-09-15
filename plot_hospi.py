@@ -49,7 +49,7 @@ def plot_hospi(loc, axes=None, title=None):
         else:
             title = f"{DEPARTMENTS[loc]} ({dep:2})"
 
-    ax0.set_title(title + ", (moyenne 7j)")
+    ax0.set_title(title + " (moyenne 7j)")
 
     for _ in (ax0, ax1):
         _.grid(True, axis="y")
