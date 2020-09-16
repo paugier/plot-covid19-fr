@@ -1,6 +1,7 @@
 import numpy as np
 
-from transonic import jit
+# from transonic import jit
+from numba import jit
 
 from load_data import population
 
