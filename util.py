@@ -1,11 +1,11 @@
 import numpy as np
 
-# from transonic import jit
+from transonic import jit
 
 from load_data import population
 
 
-# @jit
+@jit
 def cumul7(data: "int[]"):
     n = 7
     ret = np.empty_like(data)

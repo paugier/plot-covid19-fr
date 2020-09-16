@@ -1,4 +1,4 @@
-voila==0.1.21
+voila==0.1.23
 matplotlib
 ipympl
 widgetsnbextension
