@@ -4,3 +4,6 @@ download:
 
 black:
 	black -l 82 *.py
+
+install-dep:
+	pip install -r requirements.txt
