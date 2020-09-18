@@ -8,3 +8,4 @@ pandas
 # gast==0.3.3
 # beniget~=0.2.1
 numba
+ipyleaflet
