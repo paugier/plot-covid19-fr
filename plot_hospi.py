@@ -34,20 +34,39 @@ def plot_hospi(loc, axes=None, title=None):
 
     tmp["solde"] = tmp.hosp_c - tmp.rad_c - tmp.dc_c
 
+    def plot_points(y, ax):
+        tmp.plot(
+            y=y,
+            ax=ax,
+            marker=".",
+            color=ax.lines[-1].get_color(),
+            linestyle="None",
+        )
+
     tmp.plot(y="hosp_c", ax=ax0, label="hospitalisations")
+    plot_points("hosp", ax0)
     tmp.plot(y="rad_c", ax=ax0, label="retours à domicile")
+    plot_points("rad", ax0)
     tmp.plot(y="solde", ax=ax0, color="k", linewidth=2)
 
     ax0.axhline(0, color="k", linestyle=":")
 
+    handles, labels = ax0.get_legend_handles_labels()
+    ax0.legend(handles[::2], labels[::2])
+
     tmp.plot(y="rea_c", ax=ax1, label="réanimation", color="r")
+    plot_points("rea", ax1)
     tmp.plot(y="dc_c", ax=ax1, label="décès", color="k")
+    plot_points("dc", ax1)
+
+    handles, labels = ax1.get_legend_handles_labels()
+    ax1.legend(handles[::2], labels[::2])
 
     if title is None:
         if loc == "France":
             title = "France"
         else:
-            title = f"{DEPARTMENTS[loc]} ({dep:2})"
+            title = f"{DEPARTMENTS[loc]} ({loc})"
 
     ax0.set_title(title + " (moyenne 7j)")
 
