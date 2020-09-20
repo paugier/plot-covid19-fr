@@ -42,4 +42,9 @@ def load_hospi():
         {key: key[6:] for key in df.keys() if key.startswith("incid_")},
         axis="columns",
     )
+
+    # see https://www.leparisien.fr/societe/covid-19-pourquoi-la-hausse-soudaine-de-la-mortalite-en-24-heures-doit-etre-nuancee-19-09-2020-8387748.php
+    df.loc[(df.index == "2020-09-18") & (df.dep == "91"), "hosp"] = 30
+    df.loc[(df.index == "2020-09-18") & (df.dep == "91"), "dc"] = 0
+    df.loc[(df.index == "2020-09-18") & (df.dep == "91"), "rad"] = 0
     return df
