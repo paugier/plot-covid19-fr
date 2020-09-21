@@ -12,7 +12,7 @@ df = load_dataframe_dep()
 def plot_1loc(
     df_loc,
     for_title=None,
-    yscale="lin",
+    yscale="linear",
     ax=None,
     location=None,
     with_incidence=False,
@@ -35,7 +35,9 @@ def plot_1loc(
             fig_incidence = ax_incidence.figure
 
         ax_incidence.set_title("Taux d'incidence")
-        ax_number_tests.set_title("Nombre de tests 7 derniers jours / 100000 hab.")
+        ax_number_tests.set_title(
+            "Nombre de tests 7 derniers jours / 100000 hab."
+        )
 
     def make_df_1age(age):
         tmp = df_loc[df_loc.cl_age90 == age].copy()
@@ -67,15 +69,23 @@ def plot_1loc(
         tmp.plot(y="ratio_c", ax=ax, label=label)
 
         if with_incidence:
-            incidence_tmp += tmp["incidence"]
-            ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
-            incidence_bottom = incidence_tmp.copy()
+            incidence = tmp["incidence"]
+            number_tests = 100000 / population[location] * tmp["Tc"]
+            if yscale == "linear":
+                incidence_tmp += incidence
+                ax_incidence.fill_between(
+                    tmp.index, incidence_tmp, incidence_bottom
+                )
+                incidence_bottom = incidence_tmp.copy()
 
-            number_tests_tmp += 100000 / population[location] * tmp["Tc"]
-            ax_number_tests.fill_between(
-                tmp.index, number_tests_tmp, number_tests_bottom
-            )
-            number_tests_bottom = number_tests_tmp.copy()
+                number_tests_tmp += number_tests
+                ax_number_tests.fill_between(
+                    tmp.index, number_tests_tmp, number_tests_bottom
+                )
+                number_tests_bottom = number_tests_tmp.copy()
+            else:
+                ax_incidence.plot(tmp.index, incidence)
+                ax_number_tests.plot(tmp.index, number_tests)
 
     tmp79 = make_df_1age(79)
     tmp89 = make_df_1age(89)
@@ -99,17 +109,24 @@ def plot_1loc(
     ax.axvline(date_bad_data, color="k", linestyle=":")
 
     if with_incidence:
-        incidence_tmp += tmp["incidence"]
-        ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
+        incidence = tmp["incidence"]
+        number_tests = 100000 / population[location] * tmp["Tc"]
+        if yscale == "linear":
+            incidence_tmp += incidence
+            ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
 
-        number_tests_tmp += 100000 / population[location] * tmp["Tc"]
-        ax_number_tests.fill_between(
-            tmp.index, number_tests_tmp, number_tests_bottom
-        )
+            number_tests_tmp += number_tests
+            ax_number_tests.fill_between(
+                tmp.index, number_tests_tmp, number_tests_bottom
+            )
+        else:
+            ax_incidence.plot(tmp.index, incidence)
+            ax_number_tests.plot(tmp.index, number_tests)
 
         for _ in [ax_incidence, ax_number_tests]:
             _.axvline(date_bad_data, color="k", linestyle=":")
             _.grid(True, axis="y")
+            _.set_yscale(yscale)
 
     ax.grid(True, axis="y")
 
