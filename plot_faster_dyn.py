@@ -12,7 +12,7 @@ df_full = load_dataframe_dep()
 
 
 def plot_faster_dyn(
-    verbose=False, axes=None, min_positive_rate=6, max_positive_rate=None
+    verbose=False, axes=None, min_incidence=6, max_incidence=None
 ):
 
     df = df_full[df_full.cl_age90 == 0]
@@ -42,21 +42,21 @@ def plot_faster_dyn(
         last = tmp[tmp.index == tmp.index.max()]
 
         nb_tests = last["Tc"].values[0]
-        last_ratio = last["ratio_c"].values[0]
+        last_positivity = last["ratio_c"].values[0]
         last_incidence = last["incidence"].values[0]
 
         if verbose:
             print(
                 f"{dep:2}, {DEPARTMENTS[dep]:23} : {nb_tests = :5d}, "
-                f"{last_ratio = :6.2f}\n{last_incidence = :6.2f}"
+                f"{last_positivity = :6.2f}\n{last_incidence = :6.2f}"
             )
 
         style = random.choice(styles)
 
         if (
             nb_tests > 1000
-            and last_ratio > min_positive_rate
-            and (max_positive_rate is None or last_ratio < max_positive_rate)
+            and last_incidence > min_incidence
+            and (max_incidence is None or last_incidence < max_incidence)
         ):
 
             label = f"{dep:2} - {DEPARTMENTS[dep]}"
@@ -79,6 +79,6 @@ def plot_faster_dyn(
 
 if __name__ == "__main__":
 
-    plot_faster_dyn(verbose=True, min_positive_rate=7)
-    plot_faster_dyn(verbose=True, min_positive_rate=5.5, max_positive_rate=7)
+    plot_faster_dyn(verbose=True, min_incidence=120)
+    plot_faster_dyn(verbose=True, min_incidence=80, max_incidence=120)
     plt.show()
