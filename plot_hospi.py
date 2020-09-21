@@ -8,7 +8,7 @@ from util import cumul7
 df = load_hospi()
 
 
-def plot_hospi(loc, axes=None, title=None):
+def plot_hospi(loc, axes=None, title=None, yscale="linear"):
 
     df.index = pd.to_datetime(df.index)
 
@@ -32,7 +32,11 @@ def plot_hospi(loc, axes=None, title=None):
         fig = ax0.figure
         tight_layout = False
 
-    tmp["solde"] = tmp.hosp_c - tmp.rad_c - tmp.dc_c
+    if yscale == "linear":
+        tmp["solde"] = tmp.hosp_c - tmp.rad_c - tmp.dc_c
+        step_legend = 2
+    else:
+        step_legend = 1
 
     def plot_points(y, ax):
         tmp.plot(
@@ -44,23 +48,30 @@ def plot_hospi(loc, axes=None, title=None):
         )
 
     tmp.plot(y="hosp_c", ax=ax0, label="hospitalisations")
-    plot_points("hosp", ax0)
+
+    if yscale == "linear":
+        plot_points("hosp", ax0)
+
     tmp.plot(y="rad_c", ax=ax0, label="retours à domicile")
-    plot_points("rad", ax0)
-    tmp.plot(y="solde", ax=ax0, color="k", linewidth=2)
+
+    if yscale == "linear":
+        plot_points("rad", ax0)
+        tmp.plot(y="solde", ax=ax0, color="k", linewidth=2)
 
     ax0.axhline(0, color="k", linestyle=":")
 
     handles, labels = ax0.get_legend_handles_labels()
-    ax0.legend(handles[::2], labels[::2])
+    ax0.legend(handles[::step_legend], labels[::step_legend])
 
     tmp.plot(y="rea_c", ax=ax1, label="réanimation", color="r")
-    plot_points("rea", ax1)
+    if yscale == "linear":
+        plot_points("rea", ax1)
     tmp.plot(y="dc_c", ax=ax1, label="décès", color="k")
-    plot_points("dc", ax1)
+    if yscale == "linear":
+        plot_points("dc", ax1)
 
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles[::2], labels[::2])
+    ax1.legend(handles[::step_legend], labels[::step_legend])
 
     if title is None:
         if loc == "France":
@@ -72,6 +83,7 @@ def plot_hospi(loc, axes=None, title=None):
 
     for _ in (ax0, ax1):
         _.grid(True, axis="y")
+        _.set_yscale(yscale)
 
     if tight_layout:
         fig.tight_layout()
@@ -81,5 +93,5 @@ def plot_hospi(loc, axes=None, title=None):
 
 if __name__ == "__main__":
 
-    plot_hospi("75")
+    plot_hospi("75", yscale="log")
     plt.show()
