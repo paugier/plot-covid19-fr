@@ -10,6 +10,8 @@ de l'épidémie quelques mois après la sortie du confinement (à partir d'août
 - Pour visualiser les figures sans le code (avec Voilà), cliquez sur ce bouton
 : [![Binder
 Voila](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19-fr/branch/default?urlpath=%2Fvoila%2Frender%2Fplot_covid19.ipynb)
+On peut aussi juste utiliser cette adresse
+http://tiny.cc/binder-plot-covid19-fr!
 
 - Pour visualiser le code et les figures et potentiellement modifier le code
 (avec Jupyter Notebook), cliquez sur ce bouton :
