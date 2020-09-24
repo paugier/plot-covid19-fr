@@ -67,7 +67,6 @@ def plot_faster_dyn(
             tmp["Tc_scaled"] = 100000 / population[dep] * tmp["Tc"]
             tmp.plot(y="Tc_scaled", ax=ax2, label=label, style=style)
 
-
     ax.set_title("Incidence (cas positifs sur 7 jours par 100000 hab.)")
     ax1.set_title("Taux de positivité sur 7 jours")
     ax2.set_title("Nombre de tests 7 derniers jours / 100000 hab.")
