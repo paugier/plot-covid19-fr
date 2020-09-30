@@ -53,9 +53,11 @@ def plot_1loc(
     tmp.plot(y="ratio_c", ax=ax, label=f"total", color="k", linewidth=3)
 
     if with_incidence:
-        tmp.plot(y="incidence", ax=ax_incidence, color="k", legend=False)
-        tmp["Tc1"] = 100000 / population[location] * tmp["Tc"]
-        tmp.plot(y="Tc1", ax=ax_number_tests, color="k", legend=False)
+
+        if yscale == "linear":
+            tmp.plot(y="incidence", ax=ax_incidence, color="k", legend=False)
+            tmp["Tc1"] = 100000 / population[location] * tmp["Tc"]
+            tmp.plot(y="Tc1", ax=ax_number_tests, color="k", legend=False)
 
         incidence_tmp = 0.0
         number_tests_tmp = 0
@@ -84,8 +86,10 @@ def plot_1loc(
                 )
                 number_tests_bottom = number_tests_tmp.copy()
             else:
-                ax_incidence.plot(tmp.index, incidence)
-                ax_number_tests.plot(tmp.index, number_tests)
+                tmp["incidence_age"] = incidence
+                tmp.plot(y="incidence_age", ax=ax_incidence, legend=False)
+                tmp["number_tests_age"] = number_tests
+                tmp.plot(y="number_tests_age", ax=ax_number_tests, legend=False)
 
     tmp79 = make_df_1age(79)
     tmp89 = make_df_1age(89)
