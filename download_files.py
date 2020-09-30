@@ -2,6 +2,7 @@ from pathlib import Path
 from urllib.request import urlretrieve
 import os
 from shutil import copyfile
+from warnings import warn
 
 here = Path(__file__).absolute().parent
 
@@ -22,7 +23,12 @@ def get_date_from_log(log):
 
     if month == "Sep":
         month = "09"
+    elif month == "Jul":
+        month = "07"
+        warn("Ooops, strange! month is Jul! Maybe https://www.data.gouv.fr is down?")
     else:
+        print(month, day)
+        print(log.as_string())
         raise NotImplementedError
 
     return f"2020-{month}-{day}"
