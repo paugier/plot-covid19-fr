@@ -23,6 +23,12 @@ def get_date_from_log(log):
 
     if month == "Sep":
         month = "09"
+    elif month == "Oct":
+        month = "10"
+    elif month == "Nov":
+        month = "11"
+    elif month == "Dec":
+        month = "12"
     elif month == "Jul":
         month = "07"
         warn("Ooops, strange! month is Jul! Maybe https://www.data.gouv.fr is down?")
