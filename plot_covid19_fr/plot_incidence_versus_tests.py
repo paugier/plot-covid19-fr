@@ -37,9 +37,12 @@ df.index = pd.to_datetime(df.index)
 df = df[df.index >= date_min]
 
 
-def plot_incidence_vs_tests(min_incidence=100, max_incidence=None):
+def plot_incidence_vs_tests(ax=None, min_incidence=100, max_incidence=None):
 
-    fig, ax = plt.subplots()
+    if ax is None:
+        fig, ax = plt.subplots()
+    else:
+        fig = ax.figure
 
     markers = "ods8p*v<>^PXhH"
 
