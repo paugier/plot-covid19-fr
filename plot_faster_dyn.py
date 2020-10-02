@@ -35,6 +35,7 @@ def plot_faster_dyn(
     styles = ["-", "--", ":", "-."]
     for dep in DEPARTMENTS.keys():
         if len(dep) > 2:
+            # skip DOM-TOM (only "métropole")
             continue
         tmp = df[df.dep == dep].copy()
         tmp = tmp[tmp.index > "2020-07-23"]
