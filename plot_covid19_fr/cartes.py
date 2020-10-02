@@ -1,13 +1,10 @@
 import json
-import random
 from datetime import datetime, timedelta
 
-import ipyleaflet as ipyl
-import ipywidgets as ipyw
 from branca.colormap import linear
 
-from load_data import load_dataframe_dep
-from population import population
+from .load_data import load_dataframe_dep
+from .population import population
 
 df = load_dataframe_dep()
 df = df[(df.cl_age90 == 0)].copy()

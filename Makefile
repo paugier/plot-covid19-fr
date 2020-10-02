@@ -1,6 +1,6 @@
 
 download:
-	python download_files.py
+	python plot_covid19_fr/download_files.py
 
 black:
 	black -l 82 *.py

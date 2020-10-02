@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from load_data import load_hospi, DEPARTMENTS
-
-from util import cumul7
+from .load_data import load_hospi, DEPARTMENTS
+from .util import cumul7
 
 df = load_hospi()
 

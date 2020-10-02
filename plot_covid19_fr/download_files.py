@@ -6,7 +6,7 @@ from warnings import warn
 
 here = Path(__file__).absolute().parent
 
-data = here / "data"
+data = here.parent / "data"
 
 data.mkdir(exist_ok=True)
 

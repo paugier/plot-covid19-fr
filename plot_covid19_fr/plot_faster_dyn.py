@@ -4,9 +4,8 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
-from util import complete_df_1loc_1age, population
-
-from load_data import load_dataframe_dep, DEPARTMENTS
+from .util import complete_df_1loc_1age, population
+from .load_data import load_dataframe_dep, DEPARTMENTS
 
 df_full = load_dataframe_dep()
 

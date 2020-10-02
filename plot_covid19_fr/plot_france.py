@@ -2,9 +2,8 @@ from datetime import datetime, timedelta
 
 import matplotlib.pyplot as plt
 
-from load_data import load_dataframe_france
-
-from plot_1dep import plot_1loc
+from .load_data import load_dataframe_france
+from .plot_1dep import plot_1loc
 
 df = load_dataframe_france()
 date_max = df.index.max()

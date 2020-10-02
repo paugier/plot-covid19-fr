@@ -2,12 +2,12 @@ from pathlib import Path
 
 import pandas as pd
 
-from departements import DEPARTMENTS
-from population import population
+from .departements import DEPARTMENTS
+from .population import population
 
 here = Path(__file__).absolute().parent
 
-data = here / "data"
+data = here.parent / "data"
 
 
 def load_dataframe_dep():
