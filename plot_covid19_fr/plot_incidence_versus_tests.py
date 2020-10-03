@@ -10,12 +10,27 @@ from .load_data import load_dataframe_dep, DEPARTMENTS
 
 df_full = load_dataframe_dep()
 
-df = df_full[df_full.cl_age90 == 0]
-
+df_all_ages = df_full[df_full.cl_age90 == 0]
 
 fmt_date = "%Y-%m-%d"
-date_max = df.index.max()
-date_max_obj = datetime.strptime(date_max, fmt_date)
+date_last_day_in_file = df_all_ages.index.max()
+date_last_day_in_file_obj = datetime.strptime(date_last_day_in_file, fmt_date)
+
+date_file = (date_last_day_in_file_obj + timedelta(3)).strftime(fmt_date)
+
+weekday_last_day_in_file = date_last_day_in_file_obj.weekday()
+
+# (weekday for Friday is 4)
+weekday_friday = 4
+index_last_friday = weekday_friday - weekday_last_day_in_file - 1
+
+if index_last_friday >= 0:
+    index_last_friday -= 7
+
+date_last_friday_in_file = datetime.strptime(
+    df_all_ages.index[index_last_friday], fmt_date
+)
+assert date_last_friday_in_file.weekday() == weekday_friday
 
 
 def format_date_for_human(date):
@@ -23,21 +38,31 @@ def format_date_for_human(date):
     return date_obj.strftime("%d/%m/%Y")
 
 
-def give_date(delta):
-    return (date_max_obj - timedelta(delta)).strftime(fmt_date)
+def plot_incidence_vs_tests(
+    index_friday=0, ax=None, min_incidence=100, max_incidence=None
+):
+    """Plot incidence versus number of tests for some departements
 
+    For departements, 5 points are plotted from Monday to Friday. (We don't use
+    Saturday and Sunday because there is nearly no tests these days.)
 
-date_file = give_date(-3)
-date_last_point = give_date(3)
-delta_first_point = 7
-date_first_point = give_date(delta_first_point)
-date_min = give_date(delta_first_point + 7)
+    index_friday: index
 
-df.index = pd.to_datetime(df.index)
-df = df[df.index >= date_min]
+    """
 
+    index_last_day = index_last_friday + 7 * index_friday
+    date_last_point = df_all_ages.index[index_last_day]
+    date_last_point_obj = datetime.strptime(date_last_point, fmt_date)
 
-def plot_incidence_vs_tests(ax=None, min_incidence=100, max_incidence=None):
+    def give_date(delta):
+        return (date_last_point_obj - timedelta(delta)).strftime(fmt_date)
+
+    delta_first_point = 4
+    date_first_point = give_date(delta_first_point)
+    date_min = give_date(delta_first_point + 7)
+
+    df_all_ages.index = pd.to_datetime(df_all_ages.index)
+    df = df_all_ages[df_all_ages.index >= date_min]
 
     if ax is None:
         fig, ax = plt.subplots()
@@ -117,21 +142,13 @@ def plot_incidence_vs_tests(ax=None, min_incidence=100, max_incidence=None):
     x_text = nb_tests_min + 0.11 * delta_nb_tests
 
     ax.scatter(
-        x_points,
-        incidence,
-        color=cmap.colors[0],
-        marker="o",
-        zorder=2,
+        x_points, incidence, color=cmap.colors[0], marker="o", zorder=2,
     )
     ax.text(x_text, incidence - 2, format_date_for_human(date_first_point))
 
     incidence -= 0.06 * delta_incidence
     ax.scatter(
-        x_points,
-        incidence,
-        color=cmap.colors[-1],
-        marker="o",
-        zorder=2,
+        x_points, incidence, color=cmap.colors[-1], marker="o", zorder=2,
     )
     ax.text(x_text, incidence - 2, format_date_for_human(date_last_point))
 
@@ -157,7 +174,7 @@ def plot_incidence_vs_tests(ax=None, min_incidence=100, max_incidence=None):
 
 if __name__ == "__main__":
 
-    ax = plot_incidence_vs_tests()
+    ax = plot_incidence_vs_tests(index_friday=0)
     ax.figure.tight_layout()
     window_title = f"incidence_vs_tests{date_file}"
     ax.figure.canvas.set_window_title(window_title)
