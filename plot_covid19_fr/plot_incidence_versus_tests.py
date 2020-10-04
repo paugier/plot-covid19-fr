@@ -3,7 +3,7 @@ from math import pi
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+# from matplotlib.patches import Rectangle
 
 from .util import complete_df_1loc_1age, population
 from .load_data import load_dataframe_dep, DEPARTMENTS
@@ -33,6 +33,7 @@ date_last_friday_in_file = datetime.strptime(
 )
 assert date_last_friday_in_file.weekday() == weekday_friday
 
+df_all_ages.index = pd.to_datetime(df_all_ages.index)
 
 def format_date_for_human(date):
     date_obj = datetime.strptime(date, fmt_date)
@@ -65,8 +66,8 @@ def plot_incidence_vs_tests(
     else:
         index_last_day = -1
 
-    date_last_point = df_all_ages.index[index_last_day]
-    date_last_point_obj = datetime.strptime(date_last_point, fmt_date)
+    date_last_point_obj = df_all_ages.index[index_last_day]
+    date_last_point = format_date(date_last_point_obj)
 
     if (
         last_days
@@ -92,7 +93,6 @@ def plot_incidence_vs_tests(
 
     assert date_min_obj < date_first_point_obj
 
-    df_all_ages.index = pd.to_datetime(df_all_ages.index)
     df = df_all_ages[df_all_ages.index >= date_min]
 
     if ax is None:
@@ -196,15 +196,15 @@ def plot_incidence_vs_tests(
     incidence -= 0.06 * delta_incidence
     ax.text(x_points - 10, incidence - 2, "% taux de positivité", color="r")
 
-    rect = Rectangle(
-        (x_points - 0.02 * delta_nb_tests, incidence - 0.03 * delta_incidence),
-        0.28 * delta_nb_tests,
-        0.19 * delta_incidence,
-        linewidth=1,
-        edgecolor="k",
-        facecolor="white",
-    )
-    ax.add_patch(rect)
+    # rect = Rectangle(
+    #     (x_points - 0.02 * delta_nb_tests, incidence - 0.03 * delta_incidence),
+    #     0.28 * delta_nb_tests,
+    #     0.19 * delta_incidence,
+    #     linewidth=1,
+    #     edgecolor="k",
+    #     facecolor="white",
+    # )
+    # ax.add_patch(rect)
 
     fig.suptitle(
         f"Données SI-DEP {format_date_for_human(date_file)},"
