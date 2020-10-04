@@ -22,14 +22,21 @@ class StatePlotIncidenceVersusTests:
         self.widget_date.observe(self.handle_change_date)
 
         self.widget_min_incidence = widgets.IntText(
-            value=120, description="Incidence minimum:", disabled=False
+            value=120, description="Minimum:", disabled=False
         )
-        self.widget_min_incidence.observe(self.handle_change_min_incidence)
-
         self.widget_max_incidence = widgets.IntText(
-            value=2000, description="Incidence maximum:", disabled=False
+            value=2000, description="Maximum:", disabled=False
         )
-        self.widget_max_incidence.observe(self.handle_change_max_incidence)
+
+        self.widget_button = widgets.Button(
+            description="Retracer",
+            disabled=False,
+            button_style="",  # 'success', 'info', 'warning', 'danger' or ''
+            tooltip="Retracer la figure avec les nouvelles données d'entrée",
+            icon="sync-alt",  # (FontAwesome names without the `fa-` prefix)
+        )
+
+        self.widget_button.on_click(self.sync)
 
     def set_ax(self, ax):
         self.ax = ax
@@ -51,16 +58,9 @@ class StatePlotIncidenceVersusTests:
 
         self.plot()
 
-    def handle_change_min_incidence(self, change):
-        if change["name"] != "value" or change["type"] != "change":
-            return
-        self.min_incidence = change["new"]
-        self.plot()
-
-    def handle_change_max_incidence(self, change):
-        if change["name"] != "value" or change["type"] != "change":
-            return
-        self.max_incidence = change["new"]
+    def sync(self, button):
+        self.min_incidence = self.widget_min_incidence.value
+        self.max_incidence = self.widget_max_incidence.value
         self.plot()
 
     def plot(self):

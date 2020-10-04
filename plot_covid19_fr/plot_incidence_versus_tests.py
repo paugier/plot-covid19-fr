@@ -3,6 +3,7 @@ from math import pi
 
 import pandas as pd
 import matplotlib.pyplot as plt
+
 # from matplotlib.patches import Rectangle
 
 from .util import complete_df_1loc_1age, population
@@ -34,6 +35,7 @@ date_last_friday_in_file = datetime.strptime(
 assert date_last_friday_in_file.weekday() == weekday_friday
 
 df_all_ages.index = pd.to_datetime(df_all_ages.index)
+
 
 def format_date_for_human(date):
     date_obj = datetime.strptime(date, fmt_date)
@@ -206,10 +208,12 @@ def plot_incidence_vs_tests(
     # )
     # ax.add_patch(rect)
 
-    fig.suptitle(
-        f"Données SI-DEP {format_date_for_human(date_file)},"
-        f" incidence > {min_incidence}"
-    )
+    title = f"Données SI-DEP {format_date_for_human(date_file)},"
+    if max_incidence is None:
+        title += f" incidence > {min_incidence}"
+    else:
+        title += f" {min_incidence} < incidence < {max_incidence}"
+    fig.suptitle(title)
     return ax
 
 
