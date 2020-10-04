@@ -20,7 +20,8 @@ date_file = (date_last_day_in_file_obj + timedelta(3)).strftime(fmt_date)
 
 weekday_last_day_in_file = date_last_day_in_file_obj.weekday()
 
-# (weekday for Friday is 4)
+# (weekday for Monday and Friday is 0 and 4, respectively)
+weekday_monday = 0
 weekday_friday = 4
 index_last_friday = weekday_friday - weekday_last_day_in_file - 1
 
@@ -38,8 +39,17 @@ def format_date_for_human(date):
     return date_obj.strftime("%d/%m/%Y")
 
 
+def format_date(date_obj):
+    return date_obj.strftime(fmt_date)
+
+
 def plot_incidence_vs_tests(
-    index_friday=0, ax=None, min_incidence=100, max_incidence=None
+    index_friday=0,
+    last_days=False,
+    allow_weekend=False,
+    ax=None,
+    min_incidence=100,
+    max_incidence=None,
 ):
     """Plot incidence versus number of tests for some departements
 
@@ -50,16 +60,37 @@ def plot_incidence_vs_tests(
 
     """
 
-    index_last_day = index_last_friday + 7 * index_friday
+    if not last_days:
+        index_last_day = index_last_friday + 7 * index_friday
+    else:
+        index_last_day = -1
+
     date_last_point = df_all_ages.index[index_last_day]
     date_last_point_obj = datetime.strptime(date_last_point, fmt_date)
 
-    def give_date(delta):
-        return (date_last_point_obj - timedelta(delta)).strftime(fmt_date)
+    if (
+        last_days
+        and not allow_weekend
+        and weekday_last_day_in_file > weekday_friday
+    ):
+        date_last_point_obj = date_last_point_obj - timedelta(
+            weekday_last_day_in_file - weekday_friday
+        )
+        assert date_last_point_obj.weekday() == weekday_friday
+        date_last_point = date_last_point_obj.strftime(fmt_date)
 
-    delta_first_point = 4
-    date_first_point = give_date(delta_first_point)
-    date_min = give_date(delta_first_point + 7)
+    # so that the first point is monday
+    delta_first_point = date_last_point_obj.weekday()
+
+    date_first_point_obj = date_last_point_obj - timedelta(delta_first_point)
+    assert date_first_point_obj < date_last_point_obj
+    assert date_first_point_obj.weekday() == weekday_monday
+    date_first_point = format_date(date_first_point_obj)
+
+    date_min_obj = date_last_point_obj - timedelta(delta_first_point + 7)
+    date_min = format_date(date_min_obj)
+
+    assert date_min_obj < date_first_point_obj
 
     df_all_ages.index = pd.to_datetime(df_all_ages.index)
     df = df_all_ages[df_all_ages.index >= date_min]
@@ -115,6 +146,9 @@ def plot_incidence_vs_tests(
     delta_incidence = incidence_max - incidence_min
     delta_nb_tests = nb_tests_max - nb_tests_min
 
+    lx_fig, ly_fig = fig.get_size_inches()
+    aspect_ratio_figure = ly_fig / lx_fig
+
     def plot_positivity_line(nb_tests, incidence, coef_position_text=0.93):
         positivity = 100 * incidence / nb_tests
         ax.plot([0, nb_tests], [0, incidence], color="r", zorder=0, linewidth=0.5)
@@ -123,7 +157,14 @@ def plot_incidence_vs_tests(
             coef_position_text * incidence,
             f"{positivity:.1f} %",
             color="r",
-            rotation=6 * 180 / pi * incidence / nb_tests,
+            rotation=0.8
+            * 180
+            / pi
+            * aspect_ratio_figure
+            * delta_nb_tests
+            / delta_incidence
+            * incidence
+            / nb_tests,
         )
 
     plot_positivity_line(nb_tests_max, incidence_max)
@@ -174,7 +215,7 @@ def plot_incidence_vs_tests(
 
 if __name__ == "__main__":
 
-    ax = plot_incidence_vs_tests(index_friday=0)
+    ax = plot_incidence_vs_tests(index_friday=0, last_days=1)
     ax.figure.tight_layout()
     window_title = f"incidence_vs_tests{date_file}"
     ax.figure.canvas.set_window_title(window_title)
