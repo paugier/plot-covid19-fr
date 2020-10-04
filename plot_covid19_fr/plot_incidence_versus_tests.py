@@ -135,7 +135,7 @@ def plot_incidence_vs_tests(
                 zorder=2,
             )
 
-            ax.text(last_Tc_scaled - 10, last_incidence + 2, dep)
+            ax.text(last_Tc_scaled, last_incidence, dep)
 
     ax.set_xlabel("Nombre de tests 7 derniers jours / 100000 hab.")
     ax.set_ylabel("Incidence (cas positifs sur 7 jours par 100000 hab.)")
