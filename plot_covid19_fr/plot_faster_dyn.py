@@ -75,6 +75,9 @@ def plot_faster_dyn(
 
     date_bad_data = tmp.index[-3]
     for _ in [ax, ax1, ax2]:
+        ylim = list(_.get_ylim())
+        ylim[0] = 0
+        _.set_ylim(ylim)
         _.axvline(date_bad_data, color="k", linestyle=":")
         _.legend(loc="upper left", prop={"size": 8})
 
