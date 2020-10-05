@@ -102,7 +102,7 @@ def plot_incidence_vs_tests(
     else:
         fig = ax.figure
 
-    markers = "ods8p*v<>^PXhH"
+    markers = "osp*vX<h>d^8PH"
 
     for idep, dep in enumerate(DEPARTMENTS.keys()):
 
