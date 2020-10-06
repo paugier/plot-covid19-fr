@@ -10,7 +10,7 @@ class PlotFasterDyn:
         self.max_incidence = None
 
         self.widget_min_incidence = widgets.IntText(
-            value=120, description="Minimum:", disabled=False
+            value=min_incidence, description="Minimum:", disabled=False
         )
         self.widget_max_incidence = widgets.IntText(
             value=2000, description="Maximum:", disabled=False
