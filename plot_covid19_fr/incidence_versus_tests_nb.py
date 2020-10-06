@@ -4,10 +4,10 @@ from .plot_incidence_versus_tests import plot_incidence_vs_tests, date_file
 
 
 class StatePlotIncidenceVersusTests:
-    def __init__(self):
+    def __init__(self, min_incidence=150):
         self.index_friday = 0
         self.last_days = False
-        self.min_incidence = 120
+        self.min_incidence = min_incidence
         self.max_incidence = None
 
         options = [
@@ -37,6 +37,12 @@ class StatePlotIncidenceVersusTests:
         )
 
         self.widget_button.on_click(self.sync)
+
+        self.layout_inputs = widgets.TwoByTwoLayout(
+            top_left=self.widget_max_incidence,
+            bottom_left=self.widget_min_incidence,
+            top_right=self.widget_button,
+        )
 
     def set_ax(self, ax):
         self.ax = ax

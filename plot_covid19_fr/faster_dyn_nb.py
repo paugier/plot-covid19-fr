@@ -5,8 +5,8 @@ from .plot_france import date_file
 
 
 class PlotFasterDyn:
-    def __init__(self):
-        self.min_incidence = 120
+    def __init__(self, min_incidence=150):
+        self.min_incidence = min_incidence
         self.max_incidence = None
 
         self.widget_min_incidence = widgets.IntText(
@@ -25,6 +25,12 @@ class PlotFasterDyn:
         )
 
         self.widget_button.on_click(self.sync)
+
+        self.layout_inputs = widgets.TwoByTwoLayout(
+            top_left=self.widget_max_incidence,
+            bottom_left=self.widget_min_incidence,
+            top_right=self.widget_button,
+        )
 
     def set_axes(self, axes):
         self.axes = axes
