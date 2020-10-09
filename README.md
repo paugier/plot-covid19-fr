@@ -17,6 +17,9 @@ Voila](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/
 (avec Jupyter Notebook), cliquez sur ce bouton :
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paugier/plot-covid19-fr/branch/default?filepath=plot_covid19.ipynb)
 
+- Pour l'instant le plus efficace est encore de récupérer le code et de lancer
+l'application localement (voir le Makefile).
+
 ## A propos des données utilisées
 
 ### Données Système d’Informations de DEPistage (SI-DEP)
@@ -38,3 +41,9 @@ https://www.data.gouv.fr/fr/datasets/donnees-hospitalieres-relatives-a-lepidemie
 - Variations à hospital :
 https://www.data.gouv.fr/fr/datasets/r/6fadff46-9efd-4c53-942a-54aca783c30c
 (`donnees-hospitalieres-nouveaux-covid19-*-19h00.csv`)
+
+## Thanks
+
+Le projet est hébergé sur [foss.heptapod.net](ttps://foss.heptapod.net). Merci
+à [Octobus](https://octobus.net/) et [Clever
+Cloud](https://www.clever-cloud.com)!

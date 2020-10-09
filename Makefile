@@ -7,3 +7,6 @@ black:
 
 install-dep:
 	pip install -r requirements.txt
+
+launch:
+	voila plot_covid19.ipynb
