@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from .util import complete_df_1loc_1age
+from .util import complete_df_1loc_1age, shift_date_str, default_first_day_in_plot
 from .load_data import load_dataframe_dep, DEPARTMENTS, population
 
 df = load_dataframe_dep()
@@ -16,6 +16,7 @@ def plot_1loc(
     location=None,
     with_incidence=False,
     axes_incidence=None,
+    first_day_in_plot=default_first_day_in_plot,
 ):
 
     if ax is None:
@@ -38,15 +39,17 @@ def plot_1loc(
             "Nombre de tests 7 derniers jours / 100000 hab."
         )
 
+    first_day_in_plot_minus7 = shift_date_str(first_day_in_plot, -7)
+
     def make_df_1age(age):
         tmp = df_loc[df_loc.cl_age90 == age].copy()
 
         tmp.index = pd.to_datetime(tmp.index)
-        tmp = tmp[tmp.index > "2020-07-23"]
+        tmp = tmp[tmp.index >= first_day_in_plot_minus7]
 
         complete_df_1loc_1age(tmp, location)
 
-        return tmp[tmp.index > "2020-07-30"]
+        return tmp[tmp.index >= first_day_in_plot]
 
     tmp = make_df_1age(0)
     tmp.plot(y="ratio_c", ax=ax, label=f"total", color="k", linewidth=3)

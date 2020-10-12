@@ -6,14 +6,19 @@ import matplotlib.pyplot as plt
 
 # from matplotlib.patches import Rectangle
 
-from .util import complete_df_1loc_1age, population
+from .util import (
+    complete_df_1loc_1age,
+    population,
+    format_date,
+    format_date_for_human,
+    fmt_date,
+)
 from .load_data import load_dataframe_dep, DEPARTMENTS
 
 df_full = load_dataframe_dep()
 
 df_all_ages = df_full[df_full.cl_age90 == 0]
 
-fmt_date = "%Y-%m-%d"
 date_last_day_in_file = df_all_ages.index.max()
 date_last_day_in_file_obj = datetime.strptime(date_last_day_in_file, fmt_date)
 
@@ -35,15 +40,6 @@ date_last_friday_in_file = datetime.strptime(
 assert date_last_friday_in_file.weekday() == weekday_friday
 
 df_all_ages.index = pd.to_datetime(df_all_ages.index)
-
-
-def format_date_for_human(date):
-    date_obj = datetime.strptime(date, fmt_date)
-    return date_obj.strftime("%d/%m/%Y")
-
-
-def format_date(date_obj):
-    return date_obj.strftime(fmt_date)
 
 
 def plot_incidence_vs_tests(

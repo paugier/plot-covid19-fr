@@ -4,20 +4,30 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
-from .util import complete_df_1loc_1age, population
+from .util import (
+    complete_df_1loc_1age,
+    population,
+    shift_date_str,
+    default_first_day_in_plot,
+)
 from .load_data import load_dataframe_dep, DEPARTMENTS
 
 df_full = load_dataframe_dep()
 
 
 def plot_faster_dyn(
-    verbose=False, axes=None, min_incidence=6, max_incidence=None
+    verbose=False,
+    axes=None,
+    min_incidence=6,
+    max_incidence=None,
+    first_day_in_plot=default_first_day_in_plot,
 ):
 
     df = df_full[df_full.cl_age90 == 0]
 
+    first_day_in_plot_minus7 = shift_date_str(first_day_in_plot, -7)
     df.index = pd.to_datetime(df.index)
-    df = df[df.index > "2020-07-23"]
+    df = df[df.index >= first_day_in_plot_minus7]
 
     df["ratio"] = 100 * df.P / df["T"]
 
@@ -37,9 +47,8 @@ def plot_faster_dyn(
             # skip DOM-TOM (only "métropole")
             continue
         tmp = df[df.dep == dep].copy()
-        tmp = tmp[tmp.index > "2020-07-23"]
         complete_df_1loc_1age(tmp, dep)
-        tmp = tmp[tmp.index > "2020-07-30"]
+        tmp = tmp[tmp.index >= first_day_in_plot]
 
         last = tmp[tmp.index == tmp.index.max()]
 

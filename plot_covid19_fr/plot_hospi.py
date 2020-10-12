@@ -2,12 +2,18 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from .load_data import load_hospi, DEPARTMENTS
-from .util import cumul7
+from .util import cumul7, shift_date_str, default_first_day_in_plot
 
 df = load_hospi()
 
 
-def plot_hospi(loc, axes=None, title=None, yscale="linear"):
+def plot_hospi(
+    loc,
+    axes=None,
+    title=None,
+    yscale="linear",
+    first_day_in_plot=default_first_day_in_plot,
+):
 
     df.index = pd.to_datetime(df.index)
 
@@ -17,11 +23,12 @@ def plot_hospi(loc, axes=None, title=None, yscale="linear"):
         tmp = df[df.dep == loc].copy()
         tmp = tmp.drop(columns=["dep"])
 
-    tmp = tmp[tmp.index > "2020-07-23"]
+    first_day_in_plot_minus7 = shift_date_str(first_day_in_plot, -7)
+    tmp = tmp[tmp.index >= first_day_in_plot_minus7]
 
     for key in tmp.keys():
         tmp[key + "_c"] = cumul7(tmp[key].values) / 7
-    tmp = tmp[tmp.index > "2020-07-30"]
+    tmp = tmp[tmp.index >= first_day_in_plot]
 
     if axes is None:
         fig, (ax0, ax1) = plt.subplots(2, 1, sharex=True)

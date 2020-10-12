@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import numpy as np
 
 from numba import jit
@@ -5,6 +7,29 @@ from numba import jit
 # from transonic import jit
 
 from .load_data import population
+
+default_first_day_in_plot = "2020-09-01"
+
+
+fmt_date = "%Y-%m-%d"
+
+
+def create_date_object(date: str):
+    return datetime.strptime(date, fmt_date)
+
+
+def format_date_for_human(date: str):
+    date_obj = create_date_object(date)
+    return date_obj.strftime("%d/%m/%Y")
+
+
+def format_date(date_obj):
+    return date_obj.strftime(fmt_date)
+
+
+def shift_date_str(date: str, nb_days: int):
+    date_new = create_date_object(date) + timedelta(nb_days)
+    return format_date(date_new)
 
 
 @jit
