@@ -2,6 +2,7 @@ import ipywidgets as widgets
 
 from .plot_faster_dyn import plot_faster_dyn
 from .plot_france import date_file
+from .util import default_first_day_in_plot, create_date_object, format_date
 
 
 class PlotFasterDyn:
@@ -24,12 +25,19 @@ class PlotFasterDyn:
             icon="sync-alt",  # (FontAwesome names without the `fa-` prefix)
         )
 
+        self.widget_date_picker = widgets.DatePicker(
+            description="Date début",
+            value=create_date_object(default_first_day_in_plot),
+            disabled=False,
+        )
+
         self.widget_button.on_click(self.sync)
 
         self.layout_inputs = widgets.TwoByTwoLayout(
             top_left=self.widget_max_incidence,
             bottom_left=self.widget_min_incidence,
-            top_right=self.widget_button,
+            top_right=self.widget_date_picker,
+            bottom_right=self.widget_button,
         )
 
     def set_axes(self, axes):
@@ -49,6 +57,7 @@ class PlotFasterDyn:
             axes=self.axes,
             min_incidence=self.min_incidence,
             max_incidence=self.max_incidence,
+            first_day_in_plot=format_date(self.widget_date_picker.value),
         )
         for _ in self.axes[1:]:
             _.get_legend().remove()
