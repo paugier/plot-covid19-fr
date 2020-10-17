@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 
 from .load_data import load_dataframe_france
-from .plot_1dep import plot_1loc
+from .plot_1dep import plot_1loc, default_first_day_in_plot
 
 df = load_dataframe_france()
 date_max = df.index.max()
@@ -13,7 +13,13 @@ date_file = date_file_obj.strftime("%d/%m/%Y")
 date_file_Ymd = date_file_obj.strftime("%Y%m%d")
 
 
-def plot_france(yscale="log", ax=None, with_incidence=False, axes_incidence=None):
+def plot_france(
+    yscale="log",
+    ax=None,
+    with_incidence=False,
+    axes_incidence=None,
+    first_day_in_plot=default_first_day_in_plot,
+):
     return plot_1loc(
         df,
         "France",
@@ -22,6 +28,7 @@ def plot_france(yscale="log", ax=None, with_incidence=False, axes_incidence=None
         ax=ax,
         with_incidence=with_incidence,
         axes_incidence=axes_incidence,
+        first_day_in_plot=first_day_in_plot,
     )
 
 

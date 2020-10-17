@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 import ipywidgets as widgets
 
+from .util import default_first_day_in_plot, create_date_object, format_date
 from .departements import DEPARTMENTS
 
 from .plot_france import plot_france, date_file, date_file_Ymd
@@ -30,6 +31,23 @@ class Summary1loc:
                 description="Département :",
             )
             self.widget_dep.observe(self.change_dep)
+            top_left = self.widget_dep
+        else:
+            top_left = None
+
+        self.widget_date_picker = widgets.DatePicker(
+            description="Date début",
+            value=create_date_object(default_first_day_in_plot),
+            disabled=False,
+        )
+        self.widget_date_picker.observe(self.change_date)
+
+        self.layout_inputs = widgets.TwoByTwoLayout(
+            top_left=top_left,
+            bottom_left=self.widget_date_picker,
+            top_right=self.widget_yscale,
+            bottom_right=None,
+        )
 
         self.ax = None
         self.axes_incidence = None
@@ -83,6 +101,7 @@ class Summary1loc:
                 ax=ax,
                 with_incidence=True,
                 axes_incidence=axes_incidence,
+                first_day_in_plot=format_date(self.widget_date_picker.value)
             )
         else:
             plot_1dep(
@@ -91,6 +110,7 @@ class Summary1loc:
                 ax=ax,
                 with_incidence=True,
                 axes_incidence=axes_incidence,
+                first_day_in_plot=format_date(self.widget_date_picker.value)
             )
 
         plot_hospi(
@@ -98,6 +118,7 @@ class Summary1loc:
             axes=self.axes_hospi,
             title="Données hospitalières",
             yscale=yscale,
+            first_day_in_plot=format_date(self.widget_date_picker.value)
         )
 
         if yscale == "log":
@@ -143,6 +164,10 @@ class Summary1loc:
 
         self.loc = dep
         self.plot()
+
+    def change_date(self, change):
+        if change["name"] == "value" and change["old"] != change["new"]:
+            self.plot()
 
 
 if __name__ == "__main__":

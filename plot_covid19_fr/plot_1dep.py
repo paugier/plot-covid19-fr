@@ -154,7 +154,12 @@ def plot_1loc(
 
 
 def plot_1dep(
-    dep, yscale="linear", ax=None, with_incidence=False, axes_incidence=None
+    dep,
+    yscale="linear",
+    ax=None,
+    with_incidence=False,
+    axes_incidence=None,
+    first_day_in_plot=default_first_day_in_plot,
 ):
     if isinstance(dep, int):
         dep = f"{dep:02d}"
@@ -167,6 +172,7 @@ def plot_1dep(
         location=dep,
         with_incidence=with_incidence,
         axes_incidence=axes_incidence,
+        first_day_in_plot=first_day_in_plot,
     )
 
 
