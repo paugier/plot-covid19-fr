@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import ipywidgets as widgets
 
 from .plot_faster_dyn import plot_faster_dyn
@@ -7,6 +8,9 @@ from .util import default_first_day_in_plot, create_date_object, format_date
 
 class PlotFasterDyn:
     def __init__(self, min_incidence=150):
+
+        self.axes = None
+
         self.min_incidence = min_incidence
         self.max_incidence = None
 
@@ -43,12 +47,18 @@ class PlotFasterDyn:
     def set_axes(self, axes):
         self.axes = axes
 
+    def create_axes(self):
+        _, self.axes = plt.subplots(1, 3, figsize=(14, 5))
+
     def sync(self, button):
         self.min_incidence = self.widget_min_incidence.value
         self.max_incidence = self.widget_max_incidence.value
         self.plot()
 
     def plot(self):
+        if self.axes is None:
+            self.create_axes()
+
         fig = self.axes[0].figure
         fig.texts.clear()
         for _ in self.axes:

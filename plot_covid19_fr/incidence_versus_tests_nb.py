@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import ipywidgets as widgets
 
 from .plot_incidence_versus_tests import plot_incidence_vs_tests, date_file
@@ -9,6 +10,8 @@ class StatePlotIncidenceVersusTests:
         self.last_days = False
         self.min_incidence = min_incidence
         self.max_incidence = None
+
+        self.ax = None
 
         options = [
             "Derniers jours",
@@ -47,6 +50,9 @@ class StatePlotIncidenceVersusTests:
     def set_ax(self, ax):
         self.ax = ax
 
+    def create_default_ax(self):
+        fig, self.ax = plt.subplots(figsize=(9, 5))
+
     def handle_change_date(self, change):
         if change["name"] != "index" or change["type"] != "change":
             return
@@ -70,7 +76,12 @@ class StatePlotIncidenceVersusTests:
         self.plot()
 
     def plot(self):
-        self.ax.clear()
+
+        if self.ax is None:
+            self.create_default_ax()
+        else:
+            self.ax.clear()
+
         plot_incidence_vs_tests(
             index_friday=self.index_friday,
             last_days=self.last_days,
