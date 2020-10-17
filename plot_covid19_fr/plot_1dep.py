@@ -19,6 +19,12 @@ def plot_1loc(
     first_day_in_plot=default_first_day_in_plot,
 ):
 
+    if yscale == "linear daily":
+        yscale = "linear"
+        daily = True
+    else:
+        daily = False
+
     if ax is None:
         fig, ax = plt.subplots()
         tight_layout = True
@@ -61,6 +67,26 @@ def plot_1loc(
             tmp["Tc1"] = 100000 / population[location] * tmp["Tc"]
             tmp.plot(y="Tc1", ax=ax_number_tests, color="k", legend=False)
 
+            if daily:
+                tmp["incidence_daily"] = 700000 / population[location] * tmp["P"]
+                tmp.plot(
+                    y="incidence_daily",
+                    ax=ax_incidence,
+                    color="k",
+                    legend=False,
+                    marker=".",
+                    linestyle="None",
+                )
+                tmp["T1"] = 700000 / population[location] * tmp["T"]
+                tmp.plot(
+                    y="T1",
+                    ax=ax_number_tests,
+                    color="k",
+                    legend=False,
+                    marker=".",
+                    linestyle="None",
+                )
+
         incidence_tmp = 0.0
         number_tests_tmp = 0
 
@@ -75,7 +101,9 @@ def plot_1loc(
         if with_incidence:
             incidence = tmp["incidence"]
             number_tests = 100000 / population[location] * tmp["Tc"]
-            if yscale == "linear":
+            if daily:
+                pass
+            elif yscale == "linear":
                 incidence_tmp += incidence
                 ax_incidence.fill_between(
                     tmp.index, incidence_tmp, incidence_bottom
@@ -117,7 +145,9 @@ def plot_1loc(
     if with_incidence:
         incidence = tmp["incidence"]
         number_tests = 100000 / population[location] * tmp["Tc"]
-        if yscale == "linear":
+        if daily:
+            pass
+        elif yscale == "linear":
             incidence_tmp += incidence
             ax_incidence.fill_between(tmp.index, incidence_tmp, incidence_bottom)
 

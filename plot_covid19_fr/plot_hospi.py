@@ -15,6 +15,9 @@ def plot_hospi(
     first_day_in_plot=default_first_day_in_plot,
 ):
 
+    if yscale == "linear daily":
+        yscale = "linear"
+
     df.index = pd.to_datetime(df.index)
 
     if loc == "France":

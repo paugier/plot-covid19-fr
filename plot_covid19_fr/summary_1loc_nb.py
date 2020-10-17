@@ -15,9 +15,9 @@ class Summary1loc:
         self.loc = loc
 
         self.widget_yscale = widgets.RadioButtons(
-            options=["log", "linear"],
+            options=["log", "linear", "linear daily"],
             value="linear",
-            description="y-scale:",
+            description="Type:",
             disabled=False,
         )
         self.widget_yscale.observe(self.change_yscale)
@@ -147,7 +147,7 @@ class Summary1loc:
 
     def change_yscale(self, change):
         new = change["new"]
-        if new not in ["linear", "log"]:
+        if new not in ["linear", "log", "linear daily"]:
             return
 
         if change["name"] != "value":
