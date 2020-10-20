@@ -1,11 +1,8 @@
-voila==0.1.21
-# git+https://github.com/voila-dashboards/voila.git#egg=voila
+voila>=0.2.4
 matplotlib
 ipympl
 widgetsnbextension
 pandas
-# transonic
-# pythran
 numba
 ipyleaflet
-nbconvert==5.6.1
+nbconvert>=6.0.7
