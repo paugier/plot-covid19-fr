@@ -205,11 +205,11 @@ def plot_incidence_vs_tests(
     # ax.add_patch(rect)
 
     title = f"Données SI-DEP {format_date_for_human(date_file)},"
-    if max_incidence is None:
+    if max_incidence is None or max_incidence > 1500:
         title += f" incidence > {min_incidence}"
     else:
         title += f" {min_incidence} < incidence < {max_incidence}"
-    fig.suptitle(title)
+    ax.set_title(title)
     return ax
 
 

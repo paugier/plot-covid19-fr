@@ -89,6 +89,7 @@ class StatePlotIncidenceVersusTests:
             min_incidence=self.min_incidence,
             max_incidence=self.max_incidence,
         )
-        self.ax.figure.tight_layout()
         window_title = f"incidence_vs_tests{date_file}"
         self.ax.figure.canvas.set_window_title(window_title)
+
+        self.ax.figure.tight_layout()
