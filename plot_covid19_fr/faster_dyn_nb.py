@@ -7,7 +7,7 @@ from .util import default_first_day_in_plot, create_date_object, format_date
 
 
 class PlotFasterDyn:
-    def __init__(self, min_incidence=150):
+    def __init__(self, min_incidence=450):
 
         self.axes = None
 
