@@ -180,15 +180,11 @@ def plot_incidence_vs_tests(
     x_points = nb_tests_min + 0.08 * delta_nb_tests
     x_text = nb_tests_min + 0.11 * delta_nb_tests
 
-    ax.scatter(
-        x_points, incidence, color=cmap.colors[0], marker="o", zorder=2,
-    )
+    ax.scatter(x_points, incidence, color=cmap.colors[0], marker="o", zorder=2)
     ax.text(x_text, incidence - 2, format_date_for_human(date_first_point))
 
     incidence -= 0.06 * delta_incidence
-    ax.scatter(
-        x_points, incidence, color=cmap.colors[-1], marker="o", zorder=2,
-    )
+    ax.scatter(x_points, incidence, color=cmap.colors[-1], marker="o", zorder=2)
     ax.text(x_text, incidence - 2, format_date_for_human(date_last_point))
 
     incidence -= 0.06 * delta_incidence

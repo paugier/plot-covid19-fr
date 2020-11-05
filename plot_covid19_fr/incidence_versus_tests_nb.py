@@ -5,7 +5,7 @@ from .plot_incidence_versus_tests import plot_incidence_vs_tests, date_file
 
 
 class StatePlotIncidenceVersusTests:
-    def __init__(self, min_incidence=150):
+    def __init__(self, min_incidence=400):
         self.index_friday = 0
         self.last_days = False
         self.min_incidence = min_incidence
@@ -20,7 +20,7 @@ class StatePlotIncidenceVersusTests:
             "Avant avant dernière semaine",
         ]
         self.widget_date = widgets.Dropdown(
-            options=options, value=options[1], description="Période :",
+            options=options, value=options[1], description="Période :"
         )
         self.widget_date.observe(self.handle_change_date)
 

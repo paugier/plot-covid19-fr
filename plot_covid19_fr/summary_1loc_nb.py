@@ -25,7 +25,8 @@ class Summary1loc:
         if loc != "France":
             self.widget_dep = widgets.Dropdown(
                 options=[
-                    (idep + " - " + dep, idep) for idep, dep in DEPARTMENTS.items()
+                    (idep + " - " + dep, idep)
+                    for idep, dep in DEPARTMENTS.items()
                 ],
                 value=loc,
                 description="Département :",
@@ -101,7 +102,7 @@ class Summary1loc:
                 ax=ax,
                 with_incidence=True,
                 axes_incidence=axes_incidence,
-                first_day_in_plot=format_date(self.widget_date_picker.value)
+                first_day_in_plot=format_date(self.widget_date_picker.value),
             )
         else:
             plot_1dep(
@@ -110,7 +111,7 @@ class Summary1loc:
                 ax=ax,
                 with_incidence=True,
                 axes_incidence=axes_incidence,
-                first_day_in_plot=format_date(self.widget_date_picker.value)
+                first_day_in_plot=format_date(self.widget_date_picker.value),
             )
 
         plot_hospi(
@@ -118,7 +119,7 @@ class Summary1loc:
             axes=self.axes_hospi,
             title="Données hospitalières",
             yscale=yscale,
-            first_day_in_plot=format_date(self.widget_date_picker.value)
+            first_day_in_plot=format_date(self.widget_date_picker.value),
         )
 
         if yscale == "log":
