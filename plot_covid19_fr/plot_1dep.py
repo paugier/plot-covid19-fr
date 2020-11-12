@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,6 +8,10 @@ from .util import complete_df_1loc_1age, shift_date_str, default_first_day_in_pl
 from .load_data import load_dataframe_dep, DEPARTMENTS, population
 
 df = load_dataframe_dep()
+date_max = df.index.max()
+date_max_obj = datetime.strptime(date_max, "%Y-%m-%d")
+date_bad_data = (date_max_obj - timedelta(3)).strftime("%Y-%m-%d")
+date_for_R = (date_max_obj - timedelta(10)).strftime("%Y-%m-%d")
 
 
 def plot_1loc(
@@ -40,7 +46,6 @@ def plot_1loc(
             ax_incidence, ax_number_tests = axes_incidence
             fig_incidence = ax_incidence.figure
 
-        ax_incidence.set_title("Taux d'incidence")
         ax_number_tests.set_title(
             "Nombre de tests 7 derniers jours / 100000 hab."
         )
@@ -61,6 +66,18 @@ def plot_1loc(
     tmp.plot(y="ratio_c", ax=ax, label=f"total", color="k", linewidth=3)
 
     if with_incidence:
+        I_for_R = tmp["incidence"]
+        I_for_R = I_for_R[
+            (I_for_R.index > date_for_R) & (I_for_R.index <= date_bad_data)
+        ]
+        log2_I = np.log2(I_for_R.values)
+        sigma12, _ = np.polyfit(np.arange(len(log2_I)), log2_I, 1)
+        R_eff = 2 ** (7 * sigma12)
+        ax_incidence.set_title(
+            "Taux d'incidence, $R_{eff} \simeq $"
+            fr" {R_eff:.2f} $\Leftrightarrow "
+            fr"\tau \simeq $ {1/sigma12:.1f} jours"
+        )
 
         if yscale == "linear":
             tmp.plot(y="incidence", ax=ax_incidence, color="k", legend=False)
@@ -139,7 +156,6 @@ def plot_1loc(
     tmp["ratio_c"] = 100 * tmp["Pc"] / tmp["Tc"]
     tmp.plot(y="ratio_c", ax=ax, label=f">=70", linewidth=3)
 
-    date_bad_data = tmp.index[-3]
     ax.axvline(date_bad_data, color="k", linestyle=":")
 
     if with_incidence:
