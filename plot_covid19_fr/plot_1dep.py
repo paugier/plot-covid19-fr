@@ -162,7 +162,7 @@ def plot_1loc(
     tmp["ratio_c"] = 100 * tmp["Pc"] / tmp["Tc"]
     tmp.plot(y="ratio_c", ax=ax, label=f">=70", linewidth=3)
 
-    ax.axvline(date_bad_data, color="k", linestyle=":")
+    ax.axvline(date_bad_data_obj, color="k", linestyle=":")
 
     if with_incidence:
         incidence = tmp["incidence"]
@@ -182,7 +182,7 @@ def plot_1loc(
             ax_number_tests.plot(tmp.index, number_tests, linewidth=3)
 
         for _ in [ax_incidence, ax_number_tests]:
-            _.axvline(date_bad_data, color="k", linestyle=":")
+            _.axvline(date_bad_data_obj, color="k", linestyle=":")
             _.grid(True, axis="y")
             _.set_yscale(yscale)
 
