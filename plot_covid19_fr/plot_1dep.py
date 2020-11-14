@@ -7,11 +7,14 @@ import matplotlib.pyplot as plt
 from .util import complete_df_1loc_1age, shift_date_str, default_first_day_in_plot
 from .load_data import load_dataframe_dep, DEPARTMENTS, population
 
+fmt = "%Y-%m-%d"
 df = load_dataframe_dep()
 date_max = df.index.max()
-date_max_obj = datetime.strptime(date_max, "%Y-%m-%d")
-date_bad_data = (date_max_obj - timedelta(3)).strftime("%Y-%m-%d")
-date_for_R = (date_max_obj - timedelta(10)).strftime("%Y-%m-%d")
+date_max_obj = datetime.strptime(date_max, fmt)
+date_bad_data_obj = date_max_obj - timedelta(2)
+date_bad_data = date_bad_data_obj.strftime(fmt)
+date_for_R_obj = date_max_obj - timedelta(8)
+date_for_R = date_for_R_obj.strftime(fmt)
 
 
 def plot_1loc(
@@ -68,7 +71,7 @@ def plot_1loc(
     if with_incidence:
         I_for_R = tmp["incidence"]
         I_for_R = I_for_R[
-            (I_for_R.index > date_for_R) & (I_for_R.index <= date_bad_data)
+            (I_for_R.index >= date_for_R) & (I_for_R.index <= date_bad_data)
         ]
         log2_I = np.log2(I_for_R.values)
         sigma12, _ = np.polyfit(np.arange(len(log2_I)), log2_I, 1)
@@ -81,6 +84,9 @@ def plot_1loc(
 
         if yscale == "linear":
             tmp.plot(y="incidence", ax=ax_incidence, color="k", legend=False)
+            ax_incidence.plot(
+                [date_for_R_obj, date_bad_data_obj], [0, 0], "k-h", markersize=4
+            )
             tmp["Tc1"] = 100000 / population[location] * tmp["Tc"]
             tmp.plot(y="Tc1", ax=ax_number_tests, color="k", legend=False)
 
