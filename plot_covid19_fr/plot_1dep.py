@@ -13,7 +13,7 @@ date_max = df.index.max()
 date_max_obj = datetime.strptime(date_max, fmt)
 date_bad_data_obj = date_max_obj - timedelta(2)
 date_bad_data = date_bad_data_obj.strftime(fmt)
-date_for_R_obj = date_max_obj - timedelta(8)
+date_for_R_obj = date_bad_data_obj - timedelta(7)
 date_for_R = date_for_R_obj.strftime(fmt)
 
 
