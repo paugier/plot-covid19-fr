@@ -55,3 +55,11 @@ def complete_df_1loc_1age(tmp, dep=None):
 
     if dep is not None:
         tmp["incidence"] = 100000 / population[dep] * tmp["Pc"]
+
+
+def estimate_Reff(serie, date_R_begin, date_R_end):
+    serie = serie[(serie.index >= date_R_begin) & (serie.index <= date_R_end)]
+    log2_I = np.log2(serie.values)
+    sigma12, _ = np.polyfit(np.arange(len(log2_I)), log2_I, 1)
+    R_eff = 2 ** (7 * sigma12)
+    return R_eff, 1 / sigma12

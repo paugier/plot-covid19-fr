@@ -1,10 +1,23 @@
+from datetime import datetime, timedelta
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
 from .load_data import load_hospi, DEPARTMENTS
-from .util import cumul7, shift_date_str, default_first_day_in_plot
+from .util import (
+    cumul7,
+    shift_date_str,
+    default_first_day_in_plot,
+    estimate_Reff,
+)
 
 df = load_hospi()
+
+fmt = "%Y-%m-%d"
+date_max = df.index.max()
+date_max_obj = datetime.strptime(date_max, fmt)
+date_for_R_obj = date_max_obj - timedelta(7)
+date_for_R = date_for_R_obj.strftime(fmt)
 
 
 def plot_hospi(
@@ -88,7 +101,20 @@ def plot_hospi(
         else:
             title = f"{DEPARTMENTS[loc]} ({loc})"
 
-    ax0.set_title(title + " (moyenne 7j)")
+    R_hospi, tau12_hospi = estimate_Reff(tmp["hosp_c"], date_for_R, date_max)
+
+    ax0.set_title(
+        title + ", $R_{h} \simeq $"
+        fr" {R_hospi:.2f} $\Leftrightarrow "
+        fr"\tau \simeq $ {tau12_hospi:.1f} jours"
+    )
+
+    R_dead, tau12_dead = estimate_Reff(tmp["dc_c"], date_for_R, date_max)
+    ax1.set_title(
+        "$R_{d} \simeq $"
+        fr" {R_dead:.2f} $\Leftrightarrow "
+        fr"\tau \simeq $ {tau12_dead:.1f} jours"
+    )
 
     for _ in (ax0, ax1):
         _.grid(True, axis="y")

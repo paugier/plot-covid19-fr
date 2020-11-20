@@ -4,8 +4,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from .util import complete_df_1loc_1age, shift_date_str, default_first_day_in_plot
+from .util import (
+    complete_df_1loc_1age,
+    shift_date_str,
+    default_first_day_in_plot,
+    estimate_Reff,
+)
 from .load_data import load_dataframe_dep, DEPARTMENTS, population
+
 
 fmt = "%Y-%m-%d"
 df = load_dataframe_dep()
@@ -70,16 +76,11 @@ def plot_1loc(
 
     if with_incidence:
         I_for_R = tmp["incidence"]
-        I_for_R = I_for_R[
-            (I_for_R.index >= date_for_R) & (I_for_R.index <= date_bad_data)
-        ]
-        log2_I = np.log2(I_for_R.values)
-        sigma12, _ = np.polyfit(np.arange(len(log2_I)), log2_I, 1)
-        R_eff = 2 ** (7 * sigma12)
+        R_eff, tau12 = estimate_Reff(I_for_R, date_for_R, date_bad_data)
         ax_incidence.set_title(
             "Taux d'incidence, $R_{eff} \simeq $"
             fr" {R_eff:.2f} $\Leftrightarrow "
-            fr"\tau \simeq $ {1/sigma12:.1f} jours"
+            fr"\tau \simeq $ {tau12:.1f} jours"
         )
 
         if yscale == "linear":

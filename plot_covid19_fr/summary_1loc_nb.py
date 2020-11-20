@@ -117,7 +117,7 @@ class Summary1loc:
         plot_hospi(
             self.loc,
             axes=self.axes_hospi,
-            title="Données hospitalières",
+            title="Hôpital",
             yscale=yscale,
             first_day_in_plot=format_date(self.widget_date_picker.value),
         )
