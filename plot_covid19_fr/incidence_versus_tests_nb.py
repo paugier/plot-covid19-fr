@@ -5,7 +5,7 @@ from .plot_incidence_versus_tests import plot_incidence_vs_tests, date_file
 
 
 class StatePlotIncidenceVersusTests:
-    def __init__(self, min_incidence=400):
+    def __init__(self, min_incidence=250):
         self.index_friday = 0
         self.last_days = False
         self.min_incidence = min_incidence
