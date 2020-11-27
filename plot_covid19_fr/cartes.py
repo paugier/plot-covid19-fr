@@ -5,6 +5,7 @@ from branca.colormap import linear
 
 from .load_data import load_dataframe_dep
 from .population import population
+from .util import min_incidence_default
 
 df = load_dataframe_dep()
 df = df[(df.cl_age90 == 0)].copy()
@@ -38,7 +39,7 @@ def get_incidence(dep):
     return df7.incidence.loc[dep]
 
 
-cmap = linear.YlOrRd_09.scale(0, 250)
+cmap = linear.YlOrRd_09.scale(0, min_incidence_default)
 cmap.caption = "Taux d'incidence"
 
 

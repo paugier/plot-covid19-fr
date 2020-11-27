@@ -3,11 +3,16 @@ import ipywidgets as widgets
 
 from .plot_faster_dyn import plot_faster_dyn
 from .plot_france import date_file
-from .util import default_first_day_in_plot, create_date_object, format_date
+from .util import (
+    default_first_day_in_plot,
+    create_date_object,
+    format_date,
+    min_incidence_default,
+)
 
 
 class PlotFasterDyn:
-    def __init__(self, min_incidence=250):
+    def __init__(self, min_incidence=min_incidence_default):
 
         self.axes = None
 
