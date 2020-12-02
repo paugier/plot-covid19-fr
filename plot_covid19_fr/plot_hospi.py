@@ -79,8 +79,7 @@ def plot_hospi(
     if yscale == "linear":
         plot_points("rad", ax0)
         tmp.plot(y="solde", ax=ax0, color="k", linewidth=2)
-
-    ax0.axhline(0, color="k", linestyle=":")
+        ax0.axhline(0, color="k", linestyle=":")
 
     handles, labels = ax0.get_legend_handles_labels()
     ax0.legend(handles[::step_legend], labels[::step_legend])
