@@ -8,7 +8,7 @@ from numba import jit
 
 from .load_data import population
 
-default_first_day_in_plot = "2020-09-01"
+default_first_day_in_plot = "2020-11-02"
 
 min_incidence_default = 150
 
