@@ -10,7 +10,7 @@ from .load_data import population
 
 default_first_day_in_plot = "2020-11-02"
 
-min_incidence_default = 150
+min_incidence_default = 250
 
 fmt_date = "%Y-%m-%d"
 
