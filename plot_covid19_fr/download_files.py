@@ -29,6 +29,8 @@ def get_date_from_log(log):
         month = "11"
     elif month == "Dec":
         month = "12"
+    elif month == "Jan":
+        month = "01"
     elif month == "Jul":
         month = "07"
         warn(
