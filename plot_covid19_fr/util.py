@@ -4,15 +4,28 @@ import numpy as np
 
 from numba import jit
 
-# from transonic import jit
-
 from .load_data import population
+from .load_data import load_dataframe_dep
 
 default_first_day_in_plot = "2020-11-02"
 
-min_incidence_default = 250
-
 fmt_date = "%Y-%m-%d"
+
+
+def compute_min_incidence_default():
+    df = load_dataframe_dep()
+    df = df[df.cl_age90 == 0]
+    incidences = []
+    for dep in df.dep.unique():
+        if len(dep) > 2:
+            # skip DOM-TOM (only "métropole")
+            continue
+        tmp = df[df.dep == dep].copy()
+        complete_df_1loc_1age(tmp, dep)
+        last = tmp[tmp.index == tmp.index.max()]
+        incidences.append(last["incidence"].values[0])
+    incidences.sort()
+    return round(incidences[-13])
 
 
 def create_date_object(date: str):
@@ -64,3 +77,6 @@ def estimate_Reff(serie, date_R_begin, date_R_end):
     sigma12, _ = np.polyfit(np.arange(len(log2_I)), log2_I, 1)
     R_eff = 2 ** (7 * sigma12)
     return R_eff, 1 / sigma12
+
+
+min_incidence_default = compute_min_incidence_default()
