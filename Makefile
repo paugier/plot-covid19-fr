@@ -7,6 +7,7 @@ install-dep:
 
 download:
 	python plot_covid19_fr/download_files.py
+	hg st
 
 black:
 	black -l 82 .
