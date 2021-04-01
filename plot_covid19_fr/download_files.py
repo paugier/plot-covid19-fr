@@ -35,6 +35,10 @@ def get_date_from_log(log):
         month = "02"
     elif month == "Mar":
         month = "03"
+    elif month == "Apr":
+        month = "04"
+    elif month == "May":
+        month = "05"
     elif month == "Jul":
         month = "07"
         warn(
