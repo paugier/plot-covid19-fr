@@ -139,7 +139,7 @@ class Summary1loc:
             loc_for_title = f"dep{self.loc}"
 
         window_title = f"fig_{loc_for_title}{yscale_for_title}_{date_file_Ymd}"
-        self.ax.figure.canvas.set_window_title(window_title)
+        self.ax.figure.canvas.manager.set_window_title(window_title)
 
         # fig.canvas.draw()
         # fig.canvas.flush_events()
