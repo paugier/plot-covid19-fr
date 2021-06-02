@@ -39,11 +39,10 @@ def get_date_from_log(log):
         month = "04"
     elif month == "May":
         month = "05"
+    elif month == "Jun":
+        month = "06"
     elif month == "Jul":
         month = "07"
-        warn(
-            "Ooops, strange! month is Jul! Maybe https://www.data.gouv.fr is down?"
-        )
     else:
         print(month, day)
         print(log.as_string())
