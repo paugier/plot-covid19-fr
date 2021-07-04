@@ -7,7 +7,7 @@ from numba import jit
 from .load_data import population
 from .load_data import load_dataframe_dep
 
-default_first_day_in_plot = "2021-05-03"
+default_first_day_in_plot = "2021-06-07"
 
 fmt_date = "%Y-%m-%d"
 
