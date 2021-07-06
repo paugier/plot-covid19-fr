@@ -39,7 +39,7 @@ def get_incidence(dep):
     return df7.incidence.loc[dep]
 
 
-cmap = linear.YlOrRd_09.scale(0, min_incidence_default)
+cmap = linear.YlOrRd_09.scale(0, max(min_incidence_default, 50))
 cmap.caption = "Taux d'incidence"
 
 
