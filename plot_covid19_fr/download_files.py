@@ -43,6 +43,8 @@ def get_date_from_log(log):
         month = "06"
     elif month == "Jul":
         month = "07"
+    elif month == "Aug":
+        month = "08"
     else:
         print(month, day)
         print(log.as_string())
