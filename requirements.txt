@@ -4,6 +4,7 @@ ipympl
 widgetsnbextension
 pandas
 numba
+numpy==1.20.3
 ipyleaflet
 nbconvert>=6.0.7
 branca
