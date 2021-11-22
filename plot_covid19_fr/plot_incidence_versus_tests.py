@@ -100,6 +100,9 @@ def plot_incidence_vs_tests(
 
     markers = "osp*vX<h>d^8PH"
 
+    tmp_data = {}
+    last_incidences = []
+
     for idep, dep in enumerate(DEPARTMENTS.keys()):
 
         if len(dep) > 2:
@@ -114,7 +117,26 @@ def plot_incidence_vs_tests(
 
         tmp["Tc_scaled"] = 100000 / population[dep] * tmp["Tc"]
 
+        tmp_data[dep] = tmp
+
         last = tmp[tmp.index == tmp.index.max()]
+        last_incidence = last["incidence"].values[0]
+        last_incidences.append(last_incidence)
+
+    last_incidences.sort()
+    incidence5 = round(last_incidences[-5]-1)
+    if min_incidence > incidence5:
+        min_incidence = incidence5
+
+    for idep, dep in enumerate(DEPARTMENTS.keys()):
+
+        if len(dep) > 2:
+            # skip DOM-TOM (only "métropole")
+            continue
+
+        tmp = tmp_data[dep]
+        last = tmp[tmp.index == tmp.index.max()]
+
         nb_tests = last["Tc"].values[0]
         last_Tc_scaled = last["Tc_scaled"].values[0]
         last_incidence = last["incidence"].values[0]
